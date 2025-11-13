@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BL
+namespace DAL
 {
     public interface IRepository<T>
     {
@@ -18,6 +18,6 @@ namespace BL
         Task <bool> UpdateAsync(T item);
 
         // D
-        Task DeleteAsync(T item);
+        Task DeleteAsync(String id);
     }
 }

@@ -1,7 +1,4 @@
-﻿using MongoDB.Driver;
-
-
-namespace Models
+﻿namespace Models
 {
     public class Podcast
     {

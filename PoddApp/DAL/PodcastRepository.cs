@@ -28,6 +28,13 @@ namespace DAL
             return allPodcasts;
         }
 
+        public async Task<Podcast> GetByIdAsync(string Id)
+        {
+            var filter = Builders<Podcast>.Filter.Eq(p => p.PCID, Id);
+            return await PodcastCollection.Find(filter).FirstOrDefaultAsync();
+        }
+            
+
         //U
         public async Task<bool> UpdateAsync(Podcast enPodcast) {
             var filter = Builders<Podcast>.Filter.Eq(p => p.PCID, enPodcast.PCID);

@@ -14,6 +14,8 @@ namespace DAL
         // R
         Task<List<T?>> GetAllAsync();
 
+        Task<T> GetByIdAsync(string id);
+
         // U
         Task <bool> UpdateAsync(T item);
 

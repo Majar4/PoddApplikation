@@ -1,16 +1,18 @@
-﻿//using MongoDB.Bson;
-//using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Models
 
 {
     public class Podcast
     {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string PCID { get; set; }
+
         public string Name { get; set; }
         public string Description { get; set; }
-        //[BsonId]
-        //[BsonRepresantation(BsonType.ObjectId)]
-        public string PCID { get; set; }
+
         public string Url { get; set; }
         public List<Episode> episodes { get; set; } = new(); 
 

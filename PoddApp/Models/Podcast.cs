@@ -14,7 +14,7 @@ namespace Models
         public string Description { get; set; }
 
         public string Url { get; set; }
-        public List<Episode> episodes { get; set; } = new(); 
+        public List<Episode> Episodes { get; set; } = new(); 
 
         public string? CategoryID { get; set; } 
 

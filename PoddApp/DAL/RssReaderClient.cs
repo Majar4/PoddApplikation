@@ -26,20 +26,20 @@ namespace DAL
         {
             Stream stream = await this.httpClient.GetStreamAsync(rss);
             XmlReader xmlReader = new XmlTextReader(stream);
-            SyndicationFeed syndicationFeed = SyndicationFeed.Load(xmlReader);
+            SyndicationFeed feed = SyndicationFeed.Load(xmlReader);
 
             List<Podcast> podcasts = new List<Podcast>();
 
             Podcast aPodcast = new Podcast(rss)
             {
-                Name = syndicationFeed.Title?.Text ?? "No title",
+                Name = feed.Title?.Text ?? "No title",
                 //valfritt om vi vill ha beskrivning för podden, inget krav
-                Description = syndicationFeed.Description?.Text ?? "",
+                Description = feed.Description?.Text ?? "",
                 Episodes = new List<Episode>()
             };
 
 
-            foreach (SyndicationItem item in syndicationFeed.Items)
+            foreach (SyndicationItem item in feed.Items)
             {
                 Episode episode = new Episode
                 {

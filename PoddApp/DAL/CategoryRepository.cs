@@ -26,7 +26,7 @@ namespace DAL
         }
 
         //R
-        public async Task<List<Category?>> GetAllAsync()
+        public async Task<List<Category>> GetAllAsync()
         {
             var filter = FilterDefinition<Category>.Empty;
             var allCategories = await CategoryCollection.Find(filter).ToListAsync();

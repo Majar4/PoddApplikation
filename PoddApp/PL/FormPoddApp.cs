@@ -1,8 +1,8 @@
 namespace PL
 {
-    public partial class Form1 : Form
+    public partial class FormPoddApp : Form
     {
-        public Form1()
+        public FormPoddApp()
         {
             InitializeComponent();
         }

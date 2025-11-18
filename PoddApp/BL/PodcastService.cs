@@ -6,38 +6,40 @@ namespace BL
 {
     public class PodcastService : IPodcastService
     {
-        // Håller kopplingen till databasen (DAL).
+        // Håller koppling till DAL.
         private readonly IRepository<Podcast> podcastRepo;
-        // Håller kopplingen till RSS-läsaren i DAL.
+        // Håller koppling till RSS-läsaren i DAL.
         private readonly RssReaderClient rssClient;
 
-        // Tar emot ett Repository från utsidan och sparar det i fältet ovan.
+        
         public PodcastService(IRepository<Podcast> podcastRepo, RssReaderClient rssClient)
         {
             this.podcastRepo = podcastRepo;// gör repositoryt tillgängligt i hela klassen
             this.rssClient = rssClient; // gör RSS-klienten tillgänglig i hela klassen
         }
 
-        public async Task<Podcast> LoadFromRssAsync(string url) // Läser in en podcast från en RSS-url via RssReaderClient
+        public async Task<Podcast> LoadFromRssAsync(string url) // hämta poddflöde. Läser in en podcast från en RSS-url via RssReaderClient
         {
+            if (string.IsNullOrWhiteSpace(url))
+                throw new ArgumentException("Du måste ange en RSS-länk.");
             try
             {
                 // Hämtar podcast-data från RSS genom DAL-klassen RssReaderClient
                 var podcasts = await rssClient.GetPodcastByRssAsync(url);
 
-                if (podcasts == null || podcasts.Count == 0) //Om returnerar null eller tom lista
+                if (podcasts == null || podcasts.Count == 0) 
                     throw new Exception("Det gick inte att hitta någon podcast i RSS-flödet. Kontrollera RSS-länken."); //UI tar emot detta
                 // Returnerar första podcasten 
                 return podcasts.FirstOrDefault();
             }
-            catch (Exception ex) //Andra fel, nätverksfel mm
+            catch (Exception ex) 
             {
                 throw new Exception("Det gick inte att läsa RSS-flödet. Kontrollera RSS-länken och försök igen.",ex);
             }
         }
 
-        //C (All info om avsnitt kommer från RssReaderClient)
-        public async Task AddPodcastAsync(Podcast podcast) //Podcast-objekt från UI sparas till MongoDb via DAL. 
+        //C (All info om avsnitt kommer från RssReaderClient)Sparar en podcast i databasen (-spara poddflöde)
+        public async Task AddPodcastAsync(Podcast podcast)  
         {
             try
             {
@@ -54,7 +56,7 @@ namespace BL
             }
         }
 
-        //R
+        //R Hämtar alla poddar (-visa lista över sparade poddar)
 
         public async Task<List<Podcast>> GetAllPodcastsAsync() 
         {
@@ -68,13 +70,15 @@ namespace BL
                 throw new Exception("Fel uppstod vid hämtning från databasen.", ex);
             }
         }
-
-        public async Task<Podcast?> GetPodcastByIdAsync(string id)
+        //Hämtar en podd via ID(-välja ett poddflöde)
+        public async Task<Podcast> GetPodcastByIdAsync(string id)
         {
+            if (string.IsNullOrWhiteSpace(id))
+                throw new ArgumentException("Ingen podcast valdes.");
             try
             {
-                //Lägg till för om ID är tomt
                 var podcast = await podcastRepo.GetByIdAsync(id);
+
                 if (podcast == null)
                     throw new Exception("Podcasten kunde inte hittas.");
 
@@ -86,15 +90,28 @@ namespace BL
             }
         }
 
-        //U
+        //U Uppdaterar podcast (ändra namn / ändra kategori)
         public async Task UpdatePodcastAsync(Podcast podcast)
         {
+            if (podcast == null)
+                throw new ArgumentException("Ingen podcast har valts för uppdatering.");
+
+            if (string.IsNullOrWhiteSpace(podcast.PCID))
+                throw new ArgumentException("Podcast saknas, kan inte uppdateras.");
+
+            //var hasAnythingChanged = false;
+
+            //var existingPodcast = await GetPodcastByIdAsync(podcast.PCID);
+
+            //if(podcast.Name != existingPodcast.Name)
+            //{
+            //    hasAnythingChanged = true;
+            //}
+
             try
             {
-                if (podcast == null)
-                    throw new ArgumentException("Ingen podcast har valts för uppdatering.");
-
                 bool updated = await podcastRepo.UpdateAsync(podcast);
+
                 if (!updated)
                     throw new Exception("Podcasten kunde inte uppdateras.");
             }
@@ -104,13 +121,14 @@ namespace BL
             }
         }
 
-        //D
+        //D Tar bort podcast (-radera poddflöde)
         public async Task DeletePodcastAsync(string id)
         {
+            if (string.IsNullOrWhiteSpace(id))
+                throw new ArgumentException("Ingen podcast har valts för borttagning."); 
+            
             try
             {
-                if (string.IsNullOrWhiteSpace(id))
-                    throw new ArgumentException("Ingen podcast har valts för borttagning.");
                 await podcastRepo.DeleteAsync(id);
             }
             catch (Exception ex)

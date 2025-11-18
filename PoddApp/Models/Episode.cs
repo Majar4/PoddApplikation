@@ -17,5 +17,5 @@ namespace Models
         {
         
         }
-    } //testar att branch rules funkar
+    } 
 }

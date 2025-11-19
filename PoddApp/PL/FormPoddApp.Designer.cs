@@ -175,6 +175,7 @@
             btnCategorys.TabIndex = 11;
             btnCategorys.Text = "Hantera Kategorier...";
             btnCategorys.UseVisualStyleBackColor = true;
+            btnCategorys.Click += btnCategorys_Click;
             // 
             // btnShow
             // 

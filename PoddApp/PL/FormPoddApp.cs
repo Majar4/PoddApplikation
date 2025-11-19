@@ -23,5 +23,11 @@ namespace PL
             MessageBox.Show("Funkar");
             txtName.Text = thePodcast.Name;
         }
+
+        private void btnCategorys_Click(object sender, EventArgs e)
+        {
+            FormCategorys form = new FormCategorys(_categoryService);
+            form.ShowDialog();
+        }
     }
 }

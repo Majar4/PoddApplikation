@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,9 +11,10 @@ using System.Windows.Forms;
 
 namespace PL
 {
+
     public partial class FormCategorys : Form
     {
-        public FormCategorys()
+        public FormCategorys(CategoryService categoryService)
         {
             InitializeComponent();
         }

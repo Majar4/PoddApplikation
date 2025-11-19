@@ -1,4 +1,5 @@
 using BL;
+using Models;
 using System.Security.Policy;
 
 namespace PL
@@ -18,8 +19,9 @@ namespace PL
         private async void btnSearch_Click(object sender, EventArgs e)
         {
             string textUrl = txtUrl.Text;
-            await _podcastService.LoadFromRssAsync(textUrl);
+            Podcast thePodcast = await _podcastService.LoadFromRssAsync(textUrl);
             MessageBox.Show("Funkar");
+            txtName.Text = thePodcast.Name;
         }
     }
 }

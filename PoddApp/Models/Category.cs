@@ -13,7 +13,7 @@ namespace Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        [BsonElement("_id")]
+        //[BsonElement("_id")]
         public string CategoryID { get; set; }
 
         public string Name { get; set; }

@@ -11,10 +11,12 @@ namespace Models
 {
     public class Category
     {
-        public string Name { get; set; }
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
+        [BsonElement("_id")]
         public string CategoryID { get; set; }
+
+        public string Name { get; set; }
 
         public Category(string name)
         {

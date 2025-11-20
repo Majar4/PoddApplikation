@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +13,18 @@ namespace PL
 {
     public partial class FormEpisodes : Form
     {
-        public FormEpisodes()
+        private readonly Podcast _podcast;
+
+        public FormEpisodes(Podcast podcast)
         {
             InitializeComponent();
+            _podcast = podcast;
+            lblPodCastName.Text = _podcast.Name;
+
+            foreach (var e in _podcast.Episodes)
+            {
+                dgvEpisodeList.Rows.Add(e.Title, e.Description, e.PublicationDate);
+            }
         }
     }
 }

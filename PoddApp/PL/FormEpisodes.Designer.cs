@@ -30,15 +30,15 @@
         {
             lblPodCastName = new Label();
             dgvEpisodeList = new DataGridView();
-            picEpisode = new PictureBox();
-            gbEpisodeInfo = new GroupBox();
-            lblTitle = new Label();
-            lblDate = new Label();
-            lblLength = new Label();
-            tbDescription = new TextBox();
             colEpisodeName = new DataGridViewTextBoxColumn();
             colDescription = new DataGridViewTextBoxColumn();
             colDate = new DataGridViewTextBoxColumn();
+            picEpisode = new PictureBox();
+            gbEpisodeInfo = new GroupBox();
+            tbDescription = new TextBox();
+            lblLength = new Label();
+            lblDate = new Label();
+            lblTitle = new Label();
             btnShowInfo = new Button();
             btnClose = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvEpisodeList).BeginInit();
@@ -59,11 +59,33 @@
             // 
             dgvEpisodeList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvEpisodeList.Columns.AddRange(new DataGridViewColumn[] { colEpisodeName, colDescription, colDate });
-            dgvEpisodeList.Location = new Point(31, 77);
+            dgvEpisodeList.Location = new Point(31, 66);
             dgvEpisodeList.Name = "dgvEpisodeList";
             dgvEpisodeList.RowHeadersWidth = 62;
             dgvEpisodeList.Size = new Size(529, 283);
             dgvEpisodeList.TabIndex = 1;
+            // 
+            // colEpisodeName
+            // 
+            colEpisodeName.HeaderText = "Avsnittsnamn:";
+            colEpisodeName.MinimumWidth = 8;
+            colEpisodeName.Name = "colEpisodeName";
+            colEpisodeName.Width = 150;
+            // 
+            // colDescription
+            // 
+            colDescription.HeaderText = "Beskrivning:";
+            colDescription.MinimumWidth = 8;
+            colDescription.Name = "colDescription";
+            colDescription.Width = 150;
+            // 
+            // colDate
+            // 
+            colDate.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
+            colDate.HeaderText = "Publiceringsdatum:";
+            colDate.MinimumWidth = 8;
+            colDate.Name = "colDate";
+            colDate.Width = 192;
             // 
             // picEpisode
             // 
@@ -86,23 +108,12 @@
             gbEpisodeInfo.TabStop = false;
             gbEpisodeInfo.Text = "Information om Avsnitt:";
             // 
-            // lblTitle
+            // tbDescription
             // 
-            lblTitle.AutoSize = true;
-            lblTitle.Location = new Point(6, 27);
-            lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(48, 25);
-            lblTitle.TabIndex = 0;
-            lblTitle.Text = "Titel:";
-            // 
-            // lblDate
-            // 
-            lblDate.AutoSize = true;
-            lblDate.Location = new Point(6, 52);
-            lblDate.Name = "lblDate";
-            lblDate.Size = new Size(70, 25);
-            lblDate.TabIndex = 1;
-            lblDate.Text = "Datum:";
+            tbDescription.Location = new Point(6, 110);
+            tbDescription.Name = "tbDescription";
+            tbDescription.Size = new Size(339, 31);
+            tbDescription.TabIndex = 3;
             // 
             // lblLength
             // 
@@ -113,34 +124,23 @@
             lblLength.TabIndex = 2;
             lblLength.Text = "Längd:";
             // 
-            // tbDescription
+            // lblDate
             // 
-            tbDescription.Location = new Point(6, 110);
-            tbDescription.Name = "tbDescription";
-            tbDescription.Size = new Size(339, 31);
-            tbDescription.TabIndex = 3;
+            lblDate.AutoSize = true;
+            lblDate.Location = new Point(6, 52);
+            lblDate.Name = "lblDate";
+            lblDate.Size = new Size(70, 25);
+            lblDate.TabIndex = 1;
+            lblDate.Text = "Datum:";
             // 
-            // colEpisodeName
+            // lblTitle
             // 
-            colEpisodeName.HeaderText = "Avsnittsnamn:";
-            colEpisodeName.MinimumWidth = 8;
-            colEpisodeName.Name = "colEpisodeName";
-            colEpisodeName.Width = 150;
-            // 
-            // colDescription
-            // 
-            colDescription.HeaderText = "Beskrivning:";
-            colDescription.MinimumWidth = 8;
-            colDescription.Name = "colDescription";
-            colDescription.Width = 150;
-            // 
-            // colDate
-            // 
-            colDate.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
-            colDate.HeaderText = "Publiceringsdatum:";
-            colDate.MinimumWidth = 8;
-            colDate.Name = "colDate";
-            colDate.Width = 199;
+            lblTitle.AutoSize = true;
+            lblTitle.Location = new Point(6, 27);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(48, 25);
+            lblTitle.TabIndex = 0;
+            lblTitle.Text = "Titel:";
             // 
             // btnShowInfo
             // 

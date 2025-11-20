@@ -16,6 +16,8 @@ namespace PL
             InitializeComponent();
             _podcastService = podcastService;
             _categoryService = categoryService;
+
+            this.Load += FormPoddApp_Load;
             LoadPodcastsAsync();
         }
 
@@ -124,6 +126,21 @@ namespace PL
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private async Task LoadCategoriesAsync()
+        {
+            var categories = await _categoryService.GetAllCategoriesAsync();
+
+            cbCategory.DataSource = null;
+            cbCategory.DataSource = categories;
+            cbCategory.DisplayMember = "Name";
+            cbCategory.ValueMember = "CategoryID";
+        }
+
+        private async void FormPoddApp_Load(object sender, EventArgs e)
+        {
+            await LoadCategoriesAsync();
         }
     }
 }

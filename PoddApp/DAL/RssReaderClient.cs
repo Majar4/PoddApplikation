@@ -28,6 +28,27 @@ namespace DAL
             XmlReader xmlReader = new XmlTextReader(stream);
             SyndicationFeed feed = SyndicationFeed.Load(xmlReader);
 
+            //Hämta podcasts bild url
+            string imageUrl = null;
+            //vanlig rss image url
+            if (feed.ImageUrl != null)
+            {
+                imageUrl = feed.ImageUrl.ToString();
+            }
+            //itunes image url
+           var itunesImage = feed.ElementExtensions
+                .FirstOrDefault(ext =>
+                ext.OuterName == "image" &&
+                    ext.OuterNamespace == "http://www.itunes.com/dtds/podcast-1.0.dtd");
+            if(itunesImage != null)
+            {
+                var reader = itunesImage.GetReader();
+                if (reader.MoveToAttribute("href"))
+                {
+                    imageUrl = reader.Value;
+                }
+            }
+
             List<Podcast> podcasts = new List<Podcast>();
 
             Podcast aPodcast = new Podcast(rss)
@@ -35,6 +56,7 @@ namespace DAL
                 Name = feed.Title?.Text ?? "No title",
                 //valfritt om vi vill ha beskrivning för podden, inget krav
                 Description = feed.Description?.Text ?? "",
+                ImageUrl = imageUrl,
                 Episodes = new List<Episode>()
             };
 

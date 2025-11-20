@@ -54,7 +54,7 @@
             lblUrl.AutoSize = true;
             lblUrl.Location = new Point(23, 25);
             lblUrl.Name = "lblUrl";
-            lblUrl.Size = new Size(38, 20);
+            lblUrl.Size = new Size(47, 25);
             lblUrl.TabIndex = 0;
             lblUrl.Text = "URL:";
             // 
@@ -63,7 +63,7 @@
             lblName.AutoSize = true;
             lblName.Location = new Point(23, 328);
             lblName.Name = "lblName";
-            lblName.Size = new Size(52, 20);
+            lblName.Size = new Size(64, 25);
             lblName.TabIndex = 1;
             lblName.Text = "Namn:";
             // 
@@ -72,7 +72,7 @@
             lblCategory.AutoSize = true;
             lblCategory.Location = new Point(23, 364);
             lblCategory.Name = "lblCategory";
-            lblCategory.Size = new Size(69, 20);
+            lblCategory.Size = new Size(82, 25);
             lblCategory.TabIndex = 2;
             lblCategory.Text = "Kategori:";
             // 
@@ -80,14 +80,14 @@
             // 
             txtUrl.Location = new Point(104, 19);
             txtUrl.Name = "txtUrl";
-            txtUrl.Size = new Size(150, 27);
+            txtUrl.Size = new Size(150, 31);
             txtUrl.TabIndex = 3;
             // 
             // txtName
             // 
             txtName.Location = new Point(104, 322);
             txtName.Name = "txtName";
-            txtName.Size = new Size(150, 27);
+            txtName.Size = new Size(150, 31);
             txtName.TabIndex = 4;
             // 
             // cbCategory
@@ -95,7 +95,7 @@
             cbCategory.FormattingEnabled = true;
             cbCategory.Location = new Point(104, 356);
             cbCategory.Name = "cbCategory";
-            cbCategory.Size = new Size(182, 28);
+            cbCategory.Size = new Size(182, 33);
             cbCategory.TabIndex = 5;
             // 
             // btnSearch
@@ -116,6 +116,7 @@
             btnSave.TabIndex = 7;
             btnSave.Text = "SPARA";
             btnSave.UseVisualStyleBackColor = true;
+            btnSave.Click += btnSave_Click;
             // 
             // picPod
             // 
@@ -131,7 +132,7 @@
             lblPodList.Font = new Font("Segoe UI", 13F);
             lblPodList.Location = new Point(478, 16);
             lblPodList.Name = "lblPodList";
-            lblPodList.Size = new Size(240, 30);
+            lblPodList.Size = new Size(283, 36);
             lblPodList.TabIndex = 9;
             lblPodList.Text = "Mina Sparade PodCasts";
             // 

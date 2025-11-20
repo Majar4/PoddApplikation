@@ -195,6 +195,7 @@
             btnRemove.TabIndex = 13;
             btnRemove.Text = "Ta Bort Markerad";
             btnRemove.UseVisualStyleBackColor = true;
+            btnRemove.Click += btnRemove_Click;
             // 
             // FormPoddApp
             // 

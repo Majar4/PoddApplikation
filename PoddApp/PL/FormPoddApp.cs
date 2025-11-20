@@ -125,5 +125,12 @@ namespace PL
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private async Task LoadCategoriesAsync()
+        {
+            var categories = await _categoryService.GetAllCategoriesAsync();
+
+
+        }
     }
 }

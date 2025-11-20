@@ -20,6 +20,20 @@ namespace PL
         {
             InitializeComponent();
             _categoryService = categoryService;
+
+            this.Load += FormCategorys_Load;
+        }
+
+        private async void FormCategorys_Load(object sender, EventArgs e)
+        {
+            await LoadCategoriesAsync();
+        }
+
+        private async Task LoadCategoriesAsync()
+        {
+            var categories = await _categoryService.GetAllCategoriesAsync();
+            dgvCategoryList.DataSource = null;
+            dgvCategoryList.DataSource = categories;
         }
 
         private async void btnSaveChanges_Click(object sender, EventArgs e)
@@ -38,6 +52,9 @@ namespace PL
                 return;
             }
             await _categoryService.AddCategoryAsync(categoryName);
+
+            await LoadCategoriesAsync();
+            MessageBox.Show("Kategori sparad");
         }
 
         private void btnClose_Click(object sender, EventArgs e)

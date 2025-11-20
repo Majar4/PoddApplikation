@@ -15,7 +15,7 @@ namespace PL
             // see https://aka.ms/applicationconfiguration.
             HttpClient http = new HttpClient();
             var client = new RssReaderClient(http);
-            var dbString = "mongodb+srv://OruMongoDBAdmin:<HRkIURZpQ7xJl0Kp>@orumongodb.vv4muwv.mongodb.net/?appName=OruMongoDB";
+            var dbString = "mongodb+srv://OruMongoDBAdmin:Unsealed8-Taps7-Deny8-Straw3-Prior0@orumongodb.vv4muwv.mongodb.net/?appName=OruMongoDB";
             var dbName = "PodcastDB";
 
             var podcastRepo = new PodcastRepository(dbString, dbName);

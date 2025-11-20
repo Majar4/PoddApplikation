@@ -22,6 +22,7 @@ namespace Models
         {
             Url = url;
         }
+        public string? ImageUrl { get; set; }
 
         public Podcast()
         {

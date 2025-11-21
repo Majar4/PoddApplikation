@@ -18,7 +18,9 @@ namespace PL
             _categoryService = categoryService;
 
             this.Load += FormPoddApp_Load;
+            cbCategory.SelectedIndex = -1;
             LoadPodcastsAsync();
+            
         }
 
         private async void btnSearch_Click(object sender, EventArgs e)
@@ -81,11 +83,23 @@ namespace PL
 
                 fetchedPodcast.Name = txtName.Text;
 
+                if (cbCategory.SelectedItem is Category SelectedCategory)
+                {
+                    fetchedPodcast.CategoryID = SelectedCategory.CategoryID;
+                }
+                else
+                {
+                    fetchedPodcast.CategoryID = null;
+                }
+
                 await _podcastService.AddPodcastAsync(fetchedPodcast);
                 MessageBox.Show("Podcast sparad!");
 
+                txtName.Clear();
+                cbCategory.SelectedIndex = -1;
+
                 await LoadPodcastsAsync();
-                //skicka med vald kategori
+               
             }
             catch (Exception ex)
             {

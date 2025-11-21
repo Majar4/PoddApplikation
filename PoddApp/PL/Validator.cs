@@ -21,7 +21,7 @@ namespace PL
                 return "Ogiltig URL";
             }
             
-            if (!url.StartsWith("http://") || !url.StartsWith("https://")){
+            if (!url.StartsWith("http://") && !url.StartsWith("https://")){
                 return "URL måste börja med http";
             }
 

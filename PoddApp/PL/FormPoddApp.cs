@@ -16,6 +16,8 @@ namespace PL
             InitializeComponent();
             _podcastService = podcastService;
             _categoryService = categoryService;
+
+            this.Load += FormPoddApp_Load;
             LoadPodcastsAsync();
         }
 
@@ -74,7 +76,7 @@ namespace PL
             {
                 if (fetchedPodcast == null)
                 {
-                    MessageBox.Show("Fyll i sökrutan!");
+                    MessageBox.Show("Fyll i sÃ¶krutan!");
                     return;
                 }
 
@@ -88,7 +90,7 @@ namespace PL
             }
             catch (Exception ex)
             {
-                throw new Exception("Det uppstod ett fel när podcasten skulle sparas.", ex);
+                throw new Exception("Det uppstod ett fel nÃ¤r podcasten skulle sparas.", ex);
 
             }
         }
@@ -99,18 +101,18 @@ namespace PL
             {
                 if (dataGridView1.SelectedRows.Count == 0)
                 {
-                    MessageBox.Show("Markera en ruta för att radera");
+                    MessageBox.Show("Markera en ruta fÃ¶r att radera");
                     return;
                 }
                 var selectedRow = dataGridView1.SelectedRows[0];
 
                 string podcastId = selectedRow.Cells["PCID"].Value?.ToString();
-                string podcastName = selectedRow.Cells["Name"].Value?.ToString() ?? "Okänt namn";
+                string podcastName = selectedRow.Cells["Name"].Value?.ToString() ?? "OkÃ¤nt namn";
 
 
-                var popup = MessageBox.Show("Är du säker på att du vill radera"
+                var popup = MessageBox.Show("Ã„r du sÃ¤ker pÃ¥ att du vill radera"
                     + podcastName + "?",
-                    "Bekräfta radering",
+                    "BekrÃ¤fta radering",
                 MessageBoxButtons.YesNo
                 );
 
@@ -128,7 +130,19 @@ namespace PL
             }
         }
 
-        //private async Task FillCategoryCbAsync()
-        
+        private async Task LoadCategoriesAsync()
+        {
+            var categories = await _categoryService.GetAllCategoriesAsync();
+
+            cbCategory.DataSource = null;
+            cbCategory.DataSource = categories;
+            cbCategory.DisplayMember = "Name";
+            cbCategory.ValueMember = "CategoryID";
+        }
+
+        private async void FormPoddApp_Load(object sender, EventArgs e)
+        {
+            await LoadCategoriesAsync();
+        }
     }
 }

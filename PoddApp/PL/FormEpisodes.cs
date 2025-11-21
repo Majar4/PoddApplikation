@@ -23,8 +23,38 @@ namespace PL
 
             foreach (var e in _podcast.Episodes)
             {
-                dgvEpisodeList.Rows.Add(e.Title, e.Description, e.PublicationDate);
+                string cleanDescription = RemoveHtmlTags(e.Description).Trim();
+                dgvEpisodeList.Rows.Add(e.Title, cleanDescription, e.PublicationDate);
             }
+        }
+
+        private string RemoveHtmlTags(string html)
+        {
+            return System.Text.RegularExpressions.Regex.Replace(html, "<.*?>", "");
+        }
+
+        private void btnShowInfo_Click(object sender, EventArgs e)
+        {
+            if (dgvEpisodeList.SelectedRows.Count == 1)
+            {
+                var selectedRow = dgvEpisodeList.SelectedRows[0];
+                string title = selectedRow.Cells["colEpisodeName"].Value?.ToString() ?? "";
+                string description = selectedRow.Cells["colDescription"].Value?.ToString() ?? "";
+                string date = selectedRow.Cells["colDate"].Value?.ToString() ?? "";
+
+                lblTitle.Text = "Titel: " + title;
+                lblDate.Text = "Datum: " + date;
+                tbDescription.Text = RemoveHtmlTags(description);
+            }
+            else
+            {
+                MessageBox.Show("Du måste välja ett avsnitt");
+            }
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

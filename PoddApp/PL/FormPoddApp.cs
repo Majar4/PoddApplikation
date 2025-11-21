@@ -18,9 +18,10 @@ namespace PL
             _categoryService = categoryService;
 
             this.Load += FormPoddApp_Load;
-            cbCategory.SelectedIndex = -1;
             LoadPodcastsAsync();
-            
+            LoadCategoriesAsync();
+
+
         }
 
         private async void btnSearch_Click(object sender, EventArgs e)
@@ -65,7 +66,8 @@ namespace PL
                     dataGridView1.Rows.Add(podcast.Name, podcast.PCID, categoryName);
                 }
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 MessageBox.Show(ex.Message);
             }
 
@@ -82,6 +84,15 @@ namespace PL
                 }
 
                 fetchedPodcast.Name = txtName.Text;
+                string setName = fetchedPodcast.Name;
+
+                string error = Validator.NameIsValid(setName);
+
+                if (error != null)
+                {
+                    MessageBox.Show(error);
+                    return;
+                }
 
                 if (cbCategory.SelectedItem is Category SelectedCategory)
                 {
@@ -99,7 +110,7 @@ namespace PL
                 cbCategory.SelectedIndex = -1;
 
                 await LoadPodcastsAsync();
-               
+
             }
             catch (Exception ex)
             {
@@ -110,15 +121,16 @@ namespace PL
 
         private async void btnRemove_Click(object sender, EventArgs e)
         {
-            try { 
-            if (dataGridView1.SelectedRows.Count == 0)
+            try
             {
-                MessageBox.Show("Markera en ruta för att radera");
-                return;
-            }
-            var selectedRow = dataGridView1.SelectedRows[0];
+                if (dataGridView1.SelectedRows.Count == 0)
+                {
+                    MessageBox.Show("Markera en ruta för att radera");
+                    return;
+                }
+                var selectedRow = dataGridView1.SelectedRows[0];
 
-            string podcastId = selectedRow.Cells["PCID"].Value?.ToString();
+                string podcastId = selectedRow.Cells["PCID"].Value?.ToString();
                 string podcastName = selectedRow.Cells["Name"].Value?.ToString() ?? "Okänt namn";
 
 
@@ -129,7 +141,7 @@ namespace PL
                 );
 
                 if (popup == DialogResult.Yes)
-                
+
                 {
                     await _podcastService.DeletePodcastAsync(podcastId);
                     await LoadPodcastsAsync();
@@ -150,6 +162,8 @@ namespace PL
             cbCategory.DataSource = categories;
             cbCategory.DisplayMember = "Name";
             cbCategory.ValueMember = "CategoryID";
+
+            cbCategory.SelectedIndex = -1;
         }
 
         private async void FormPoddApp_Load(object sender, EventArgs e)

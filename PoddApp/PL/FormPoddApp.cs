@@ -26,11 +26,29 @@ namespace PL
 
         private async void btnSearch_Click(object sender, EventArgs e)
         {
+            try { 
             string textUrl = txtUrl.Text;
+
+            string error = Validator.RssIsValid(textUrl);
+
+            if (error != null)
+            {
+                MessageBox.Show(error);
+                    txtUrl.Clear();
+                    return;
+            }
+
             Podcast thePodcast = await _podcastService.LoadFromRssAsync(textUrl);
             fetchedPodcast = thePodcast;
-            MessageBox.Show("Funkar");
+
             txtName.Text = thePodcast.Name;
+                txtUrl.Clear();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnCategorys_Click(object sender, EventArgs e)

@@ -1,4 +1,5 @@
 ﻿using BL;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,6 +16,7 @@ namespace PL
     public partial class FormCategorys : Form
     {
         private readonly CategoryService _categoryService;
+        private List<Category> _categories = new List<Category>();
 
         public FormCategorys(CategoryService categoryService)
         {
@@ -22,9 +24,6 @@ namespace PL
             _categoryService = categoryService;
 
             this.Load += FormCategorys_Load;
-            dgvCategoryList.AutoGenerateColumns = false;
-            colCategoryName.DataPropertyName = "Name";
-            
         }
 
         private async void FormCategorys_Load(object sender, EventArgs e)
@@ -34,9 +33,9 @@ namespace PL
 
         private async Task LoadCategoriesAsync()
         {
-            var categories = await _categoryService.GetAllCategoriesAsync();
+            _categories = await _categoryService.GetAllCategoriesAsync();
             dgvCategoryList.DataSource = null;
-            dgvCategoryList.DataSource = categories;
+            dgvCategoryList.DataSource = _categories;
         }
 
         private async void btnSaveChanges_Click(object sender, EventArgs e)

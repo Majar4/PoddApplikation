@@ -22,6 +22,9 @@ namespace PL
             _categoryService = categoryService;
 
             this.Load += FormCategorys_Load;
+            dgvCategoryList.AutoGenerateColumns = false;
+            colCategoryName.DataPropertyName = "Name";
+            
         }
 
         private async void FormCategorys_Load(object sender, EventArgs e)

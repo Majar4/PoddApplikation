@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BL
 {
-    public class CategoryService
+    public class CategoryService : ICategoryService
     {
         private readonly IRepository<Category> _repository;
 
@@ -28,6 +28,10 @@ namespace BL
         public Task<List<Category>> GetAllCategoriesAsync()
         {
             return _repository.GetAllAsync();
+        }
+        public Task<Category> GetCategoryByIdAsync(string categoryId)
+        {
+            return _repository.GetByIdAsync(categoryId);
         }
 
         //U

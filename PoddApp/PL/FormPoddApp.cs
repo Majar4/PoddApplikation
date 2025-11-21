@@ -26,22 +26,23 @@ namespace PL
 
         private async void btnSearch_Click(object sender, EventArgs e)
         {
-            try { 
-            string textUrl = txtUrl.Text;
-
-            string error = Validator.RssIsValid(textUrl);
-
-            if (error != null)
+            try
             {
-                MessageBox.Show(error);
+                string textUrl = txtUrl.Text;
+
+                string error = Validator.RssIsValid(textUrl);
+
+                if (error != null)
+                {
+                    MessageBox.Show(error);
                     txtUrl.Clear();
                     return;
-            }
+                }
 
-            Podcast thePodcast = await _podcastService.LoadFromRssAsync(textUrl);
-            fetchedPodcast = thePodcast;
+                Podcast thePodcast = await _podcastService.LoadFromRssAsync(textUrl);
+                fetchedPodcast = thePodcast;
 
-            txtName.Text = thePodcast.Name;
+                txtName.Text = thePodcast.Name;
                 txtUrl.Clear();
 
             }
@@ -187,6 +188,41 @@ namespace PL
         private async void FormPoddApp_Load(object sender, EventArgs e)
         {
             await LoadCategoriesAsync();
+        }
+
+        private async void btnShow_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dataGridView1.SelectedRows.Count == 0)
+                {
+                    MessageBox.Show("Välj en podcast.");
+                    return;
+
+                }
+
+                var selectedRow = dataGridView1.SelectedRows[0];
+                string podcastId = selectedRow.Cells["PCID"].Value?.ToString() ?? "";
+
+                if (string.IsNullOrEmpty(podcastId))
+                {
+                    MessageBox.Show("Kunde inte läsa in podcast");
+                    return;
+                }
+                Podcast podcast = await _podcastService.GetPodcastByIdAsync(podcastId);
+                if (podcast == null)
+                {
+                    MessageBox.Show("Podcasten kunde inte hittas.");
+                    return;
+                }
+
+                FormEpisodes form = new FormEpisodes(podcast);
+                form.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fel: " +  ex.Message);
+            }
         }
     }
 }

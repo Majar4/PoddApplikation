@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             dgvCategoryList = new DataGridView();
-            colCategoryId = new DataGridViewTextBoxColumn();
-            colCategoryName = new DataGridViewTextBoxColumn();
             btnShowAll = new Button();
             btnSearch = new Button();
             lblNameSearch = new Label();
@@ -39,34 +37,20 @@
             btnDelete = new Button();
             btnSaveChanges = new Button();
             btnClose = new Button();
+            colCategoryId = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvCategoryList).BeginInit();
             SuspendLayout();
             // 
             // dgvCategoryList
             // 
             dgvCategoryList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCategoryList.Columns.AddRange(new DataGridViewColumn[] { colCategoryId, colCategoryName });
+            dgvCategoryList.Columns.AddRange(new DataGridViewColumn[] { colCategoryId });
             dgvCategoryList.Location = new Point(20, 23);
             dgvCategoryList.Margin = new Padding(2);
             dgvCategoryList.Name = "dgvCategoryList";
             dgvCategoryList.RowHeadersWidth = 62;
             dgvCategoryList.Size = new Size(222, 290);
             dgvCategoryList.TabIndex = 0;
-            // 
-            // colCategoryId
-            // 
-            colCategoryId.HeaderText = "KategoriID";
-            colCategoryId.MinimumWidth = 8;
-            colCategoryId.Name = "colCategoryId";
-            colCategoryId.Visible = false;
-            colCategoryId.Width = 150;
-            // 
-            // colCategoryName
-            // 
-            colCategoryName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            colCategoryName.HeaderText = "Benämning:";
-            colCategoryName.MinimumWidth = 8;
-            colCategoryName.Name = "colCategoryName";
             // 
             // btnShowAll
             // 
@@ -150,6 +134,14 @@
             btnClose.UseVisualStyleBackColor = true;
             btnClose.Click += btnClose_Click;
             // 
+            // colCategoryId
+            // 
+            colCategoryId.HeaderText = "KategoriID";
+            colCategoryId.MinimumWidth = 8;
+            colCategoryId.Name = "colCategoryId";
+            colCategoryId.Visible = false;
+            colCategoryId.Width = 150;
+            // 
             // FormCategorys
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -175,8 +167,6 @@
         #endregion
 
         private DataGridView dgvCategoryList;
-        private DataGridViewTextBoxColumn colCategoryId;
-        private DataGridViewTextBoxColumn colCategoryName;
         private Button btnShowAll;
         private Button btnSearch;
         private Label lblNameSearch;
@@ -185,5 +175,6 @@
         private Button btnDelete;
         private Button btnSaveChanges;
         private Button btnClose;
+        private DataGridViewTextBoxColumn colCategoryId;
     }
 }

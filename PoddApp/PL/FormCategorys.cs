@@ -37,6 +37,14 @@ namespace PL
             var DBcategories = await _categoryService.GetAllCategoriesAsync();
             _categories = new BindingList<Category>(DBcategories);
             dgvCategoryList.DataSource = _categories;
+            if (dgvCategoryList.Columns["CategoryID"] != null)
+            {
+                dgvCategoryList.Columns["CategoryID"].Visible = false;
+            }
+            if (dgvCategoryList.Columns["Name"] != null)
+            {
+                dgvCategoryList.Columns["Name"].HeaderText = "Benämning";
+            }
         }
 
         private async void btnSaveChanges_Click(object sender, EventArgs e)

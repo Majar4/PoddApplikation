@@ -116,6 +116,7 @@
             btnAdd.TabIndex = 5;
             btnAdd.Text = "Lägg till Rad";
             btnAdd.UseVisualStyleBackColor = true;
+            btnAdd.Click += btnAdd_Click;
             // 
             // btnDelete
             // 

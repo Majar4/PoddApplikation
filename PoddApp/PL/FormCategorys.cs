@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,7 @@ namespace PL
     public partial class FormCategorys : Form
     {
         private readonly CategoryService _categoryService;
-        private List<Category> _categories = new List<Category>();
+        private BindingList<Category> _categories = new BindingList<Category>();
 
         public FormCategorys(CategoryService categoryService)
         {
@@ -33,28 +34,21 @@ namespace PL
 
         private async Task LoadCategoriesAsync()
         {
-            _categories = await _categoryService.GetAllCategoriesAsync();
-            dgvCategoryList.DataSource = null;
+            var DBcategories = await _categoryService.GetAllCategoriesAsync();
+            _categories = new BindingList<Category>(DBcategories);
             dgvCategoryList.DataSource = _categories;
         }
 
         private async void btnSaveChanges_Click(object sender, EventArgs e)
         {
-            var currentCell = dgvCategoryList.CurrentCell;
-            if (currentCell == null || currentCell.Value == null)
+            foreach (var cat in _categories)
             {
-                MessageBox.Show("Vänligen skriv in ett kategorinamn");
-                return;
+                if (!string.IsNullOrWhiteSpace(cat.Name) && string.IsNullOrWhiteSpace(cat.CategoryID))
+                {
+                    string catName = cat.Name.Trim();
+                    await _categoryService.AddCategoryAsync(catName);
+                }
             }
-            string categoryName = currentCell.Value.ToString().Trim();
-
-            if (string.IsNullOrWhiteSpace(categoryName))
-            {
-                MessageBox.Show("Vänligen skriv in ett kategorinamn");
-                return;
-            }
-            await _categoryService.AddCategoryAsync(categoryName);
-
             await LoadCategoriesAsync();
             MessageBox.Show("Kategori sparad");
         }
@@ -62,6 +56,12 @@ namespace PL
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            var newCategory = new Category();
+            _categories.Add(newCategory);
         }
     }
 }

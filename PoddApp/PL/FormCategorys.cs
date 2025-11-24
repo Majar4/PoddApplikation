@@ -23,7 +23,6 @@ namespace PL
         {
             InitializeComponent();
             _categoryService = categoryService;
-            _categories = new BindingList<Category>();
             dgvCategoryList.DataSource = _categories;
 
             CorrectColumnSettings();
@@ -68,9 +67,11 @@ namespace PL
         private async void btnShowAll_Click(object sender, EventArgs e)
         {
             var DBcategories = await _categoryService.GetAllCategoriesAsync();
-            _categories = new BindingList<Category>(DBcategories);
-            dgvCategoryList.DataSource = _categories;
-
+            _categories.Clear();
+            foreach (var cat in DBcategories)
+            {
+                _categories.Add(cat);
+            }
             CorrectColumnSettings();
         }
     }

@@ -207,6 +207,7 @@
             saveChangesBtn.TabIndex = 14;
             saveChangesBtn.Text = "Spara ";
             saveChangesBtn.UseVisualStyleBackColor = true;
+            saveChangesBtn.Click += saveChangesBtn_Click;
             // 
             // FormPoddApp
             // 

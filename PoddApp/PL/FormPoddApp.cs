@@ -11,7 +11,9 @@ namespace PL
         private readonly PodcastService _podcastService;
         private readonly CategoryService _categoryService;
         private Podcast? fetchedPodcast;
-        private BindingList<Category> _categories = new BindingList<Category>();
+        private BindingList<Category> _categoriescb = new BindingList<Category>();
+        private BindingList<Category> _categoriesdg = new BindingList<Category>();
+
 
         public FormPoddApp(PodcastService podcastService, CategoryService categoryService)
         {
@@ -22,8 +24,7 @@ namespace PL
             this.Load += FormPoddApp_Load;
             LoadPodcastsAsync();
             LoadCategoriesAsync();
-
-
+            
         }
 
         private async void btnSearch_Click(object sender, EventArgs e)
@@ -69,23 +70,26 @@ namespace PL
                 var allCategories = await _categoryService.GetAllCategoriesAsync();
                 var categoryNames = allCategories.Select(c => c.Name).ToList();
                 categoryNames.Add("Ingen kategori");
-
                 dataGridView1.Columns.Clear();
 
                 dataGridView1.Columns.Add("Name", "Namn");
                 dataGridView1.Columns.Add("PCID", "PCID");
                 dataGridView1.Columns["PCID"].Visible = false;
 
+
                 var comboColumn = new DataGridViewComboBoxColumn();
                 comboColumn.Name = "Category";
                 comboColumn.HeaderText = "Kategori";
-                comboColumn.DataSource = categoryNames;
+                comboColumn.DataSource = _categoriesdg;
+                comboColumn.DisplayMember = "Name";
+                comboColumn.ValueMember = "CategoryID";
                 dataGridView1.Columns.Add(comboColumn);
 
                 foreach (var podcast in allPodcasts)
                 {
-                    var categoryName = allCategories.FirstOrDefault(c => c.CategoryID == podcast.CategoryID)?.Name ?? "Ingen kategori";
-                    dataGridView1.Rows.Add(podcast.Name, podcast.PCID, categoryName);
+
+                    string categoryId = podcast.CategoryID ?? null;
+                    dataGridView1.Rows.Add(podcast.Name, podcast.PCID, categoryId);
                 }
             }
             catch (Exception ex)
@@ -180,22 +184,29 @@ namespace PL
         {
             var DBcategories = await _categoryService.GetAllCategoriesAsync();
 
-            _categories.Clear();
+            _categoriescb.Clear();
+            _categoriesdg.Clear();
+
             foreach (var cat in DBcategories)
             {
-                _categories.Add(cat);
+                _categoriescb.Add(cat);
+                _categoriesdg.Add(cat);
+
             }
 
-            cbCategory.DataSource = _categories;
+            cbCategory.DataSource = _categoriescb;
             cbCategory.DisplayMember = "Name";
             cbCategory.ValueMember = "CategoryID";
 
             cbCategory.SelectedIndex = -1;
+            cbCategory.DropDownStyle = ComboBoxStyle.DropDownList;  
         }
 
         private async void FormPoddApp_Load(object sender, EventArgs e)
         {
+            
             await LoadCategoriesAsync();
+            await LoadPodcastsAsync();
         }
 
         private async void btnShow_Click(object sender, EventArgs e)
@@ -229,7 +240,60 @@ namespace PL
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Fel: " +  ex.Message);
+                MessageBox.Show("Fel: " + ex.Message);
+            }
+        }
+
+        private async void saveChangesBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dataGridView1.SelectedRows.Count == 0)
+                {
+                    MessageBox.Show("Markera en podcast för att ändra!");
+                    return;
+                }
+
+                if (dataGridView1.IsCurrentCellInEditMode)
+                {
+                    dataGridView1.EndEdit();
+                }
+
+                var row = dataGridView1.SelectedRows[0];
+
+                string pcid = row.Cells["PCID"].Value?.ToString();
+
+                if (string.IsNullOrEmpty(pcid)) { 
+                    MessageBox.Show("Kunde inte läsa in podcasten");
+                    return;
+                }
+
+                string newName = row.Cells["Name"].Value?.ToString();
+
+                string error = Validator.NameIsValid(newName);
+                if (error != null)
+                {
+                    MessageBox.Show(error);
+                    return;
+                }
+                
+                string newCategoryId = row.Cells["Category"].Value?.ToString();
+                
+
+                Podcast podcast = await _podcastService.GetPodcastByIdAsync(pcid);
+                podcast.Name = newName;
+                podcast.CategoryID = string.IsNullOrEmpty(newCategoryId) ? null : newCategoryId;
+
+                await _podcastService.UpdatePodcastAsync(podcast);
+                MessageBox.Show("Informationen ändrad!");
+                
+                await LoadPodcastsAsync();
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fel: " + ex.Message);
+                 
             }
         }
     }

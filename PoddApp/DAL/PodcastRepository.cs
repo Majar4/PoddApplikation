@@ -39,7 +39,7 @@ namespace DAL
         public async Task<bool> UpdateAsync(Podcast enPodcast) {
             var filter = Builders<Podcast>.Filter.Eq(p => p.PCID, enPodcast.PCID);
             var update = Builders<Podcast>.Update.Set(p => p.Name, enPodcast.Name)
-                .Set(p => p.Description, enPodcast.Description);
+                .Set(p => p.CategoryID, enPodcast.CategoryID);
             var result = await PodcastCollection.UpdateOneAsync(filter, update);
             return result.ModifiedCount > 0;
         }

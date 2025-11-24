@@ -38,13 +38,14 @@
             btnSaveChanges = new Button();
             btnClose = new Button();
             colCategoryId = new DataGridViewTextBoxColumn();
+            Benämning = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvCategoryList).BeginInit();
             SuspendLayout();
             // 
             // dgvCategoryList
             // 
             dgvCategoryList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCategoryList.Columns.AddRange(new DataGridViewColumn[] { colCategoryId });
+            dgvCategoryList.Columns.AddRange(new DataGridViewColumn[] { colCategoryId, Benämning });
             dgvCategoryList.Location = new Point(20, 23);
             dgvCategoryList.Margin = new Padding(2);
             dgvCategoryList.Name = "dgvCategoryList";
@@ -61,6 +62,7 @@
             btnShowAll.TabIndex = 1;
             btnShowAll.Text = "Visa Alla";
             btnShowAll.UseVisualStyleBackColor = true;
+            btnShowAll.Click += btnShowAll_Click;
             // 
             // btnSearch
             // 
@@ -142,6 +144,14 @@
             colCategoryId.Visible = false;
             colCategoryId.Width = 150;
             // 
+            // Benämning
+            // 
+            Benämning.DataPropertyName = "Name";
+            Benämning.HeaderText = "Benämning";
+            Benämning.MinimumWidth = 6;
+            Benämning.Name = "Benämning";
+            Benämning.Width = 125;
+            // 
             // FormCategorys
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -176,5 +186,6 @@
         private Button btnSaveChanges;
         private Button btnClose;
         private DataGridViewTextBoxColumn colCategoryId;
+        private DataGridViewTextBoxColumn Benämning;
     }
 }

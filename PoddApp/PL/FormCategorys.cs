@@ -23,20 +23,14 @@ namespace PL
         {
             InitializeComponent();
             _categoryService = categoryService;
-
-            this.Load += FormCategorys_Load;
-        }
-
-        private async void FormCategorys_Load(object sender, EventArgs e)
-        {
-            await LoadCategoriesAsync();
-        }
-
-        private async Task LoadCategoriesAsync()
-        {
-            var DBcategories = await _categoryService.GetAllCategoriesAsync();
-            _categories = new BindingList<Category>(DBcategories);
+            _categories = new BindingList<Category>();
             dgvCategoryList.DataSource = _categories;
+
+            CorrectColumnSettings();
+        }
+
+        private void CorrectColumnSettings()
+        {
             if (dgvCategoryList.Columns["CategoryID"] != null)
             {
                 dgvCategoryList.Columns["CategoryID"].Visible = false;
@@ -57,7 +51,6 @@ namespace PL
                     await _categoryService.AddCategoryAsync(catName);
                 }
             }
-            await LoadCategoriesAsync();
             MessageBox.Show("Kategori sparad");
         }
 
@@ -70,6 +63,15 @@ namespace PL
         {
             var newCategory = new Category();
             _categories.Add(newCategory);
+        }
+
+        private async void btnShowAll_Click(object sender, EventArgs e)
+        {
+            var DBcategories = await _categoryService.GetAllCategoriesAsync();
+            _categories = new BindingList<Category>(DBcategories);
+            dgvCategoryList.DataSource = _categories;
+
+            CorrectColumnSettings();
         }
     }
 }

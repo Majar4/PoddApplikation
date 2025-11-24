@@ -46,11 +46,18 @@ namespace PL
             {
                 if (!string.IsNullOrWhiteSpace(cat.Name) && string.IsNullOrWhiteSpace(cat.CategoryID))
                 {
-                    string catName = cat.Name.Trim();
-                    await _categoryService.AddCategoryAsync(catName);
+                    try
+                    {
+                        await _categoryService.AddCategoryAsync(cat.Name);
+                        MessageBox.Show("Kategori sparad");
+                    }
+                    catch(InvalidOperationException ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
                 }
             }
-            MessageBox.Show("Kategori sparad");
+            MessageBox.Show("Vänligen skriv in en kategori");
         }
 
         private void btnClose_Click(object sender, EventArgs e)

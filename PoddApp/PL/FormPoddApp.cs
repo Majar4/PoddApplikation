@@ -1,5 +1,6 @@
 using BL;
 using Models;
+using System.ComponentModel;
 using System.Security.Policy;
 using System.Threading.Tasks;
 
@@ -10,6 +11,7 @@ namespace PL
         private readonly PodcastService _podcastService;
         private readonly CategoryService _categoryService;
         private Podcast? fetchedPodcast;
+        private BindingList<Category> _categories = new BindingList<Category>();
 
         public FormPoddApp(PodcastService podcastService, CategoryService categoryService)
         {
@@ -52,10 +54,11 @@ namespace PL
             }
         }
 
-        private void btnCategorys_Click(object sender, EventArgs e)
+        private async void btnCategorys_Click(object sender, EventArgs e)
         {
             FormCategorys form = new FormCategorys(_categoryService);
             form.ShowDialog();
+            await LoadCategoriesAsync();
         }
 
         private async Task LoadPodcastsAsync()
@@ -175,10 +178,15 @@ namespace PL
 
         private async Task LoadCategoriesAsync()
         {
-            var categories = await _categoryService.GetAllCategoriesAsync();
+            var DBcategories = await _categoryService.GetAllCategoriesAsync();
 
-            cbCategory.DataSource = null;
-            cbCategory.DataSource = categories;
+            _categories.Clear();
+            foreach (var cat in DBcategories)
+            {
+                _categories.Add(cat);
+            }
+
+            cbCategory.DataSource = _categories;
             cbCategory.DisplayMember = "Name";
             cbCategory.ValueMember = "CategoryID";
 

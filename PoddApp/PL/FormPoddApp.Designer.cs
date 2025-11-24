@@ -45,6 +45,7 @@
             btnCategorys = new Button();
             btnShow = new Button();
             btnRemove = new Button();
+            saveChangesBtn = new Button();
             ((System.ComponentModel.ISupportInitialize)picPod).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
@@ -54,7 +55,7 @@
             lblUrl.AutoSize = true;
             lblUrl.Location = new Point(23, 25);
             lblUrl.Name = "lblUrl";
-            lblUrl.Size = new Size(31, 15);
+            lblUrl.Size = new Size(47, 25);
             lblUrl.TabIndex = 0;
             lblUrl.Text = "URL:";
             // 
@@ -63,7 +64,7 @@
             lblName.AutoSize = true;
             lblName.Location = new Point(23, 328);
             lblName.Name = "lblName";
-            lblName.Size = new Size(43, 15);
+            lblName.Size = new Size(64, 25);
             lblName.TabIndex = 1;
             lblName.Text = "Namn:";
             // 
@@ -72,7 +73,7 @@
             lblCategory.AutoSize = true;
             lblCategory.Location = new Point(23, 364);
             lblCategory.Name = "lblCategory";
-            lblCategory.Size = new Size(54, 15);
+            lblCategory.Size = new Size(82, 25);
             lblCategory.TabIndex = 2;
             lblCategory.Text = "Kategori:";
             // 
@@ -80,14 +81,14 @@
             // 
             txtUrl.Location = new Point(104, 19);
             txtUrl.Name = "txtUrl";
-            txtUrl.Size = new Size(150, 23);
+            txtUrl.Size = new Size(150, 31);
             txtUrl.TabIndex = 3;
             // 
             // txtName
             // 
             txtName.Location = new Point(104, 322);
             txtName.Name = "txtName";
-            txtName.Size = new Size(150, 23);
+            txtName.Size = new Size(150, 31);
             txtName.TabIndex = 4;
             // 
             // cbCategory
@@ -95,7 +96,7 @@
             cbCategory.FormattingEnabled = true;
             cbCategory.Location = new Point(104, 356);
             cbCategory.Name = "cbCategory";
-            cbCategory.Size = new Size(182, 23);
+            cbCategory.Size = new Size(182, 33);
             cbCategory.TabIndex = 5;
             // 
             // btnSearch
@@ -132,7 +133,7 @@
             lblPodList.Font = new Font("Segoe UI", 13F);
             lblPodList.Location = new Point(478, 16);
             lblPodList.Name = "lblPodList";
-            lblPodList.Size = new Size(199, 25);
+            lblPodList.Size = new Size(283, 36);
             lblPodList.TabIndex = 9;
             lblPodList.Text = "Mina Sparade PodCasts";
             // 
@@ -180,27 +181,38 @@
             // 
             // btnShow
             // 
-            btnShow.Location = new Point(469, 408);
+            btnShow.Location = new Point(470, 408);
             btnShow.Name = "btnShow";
-            btnShow.Size = new Size(162, 34);
+            btnShow.Size = new Size(117, 34);
             btnShow.TabIndex = 12;
-            btnShow.Text = "Visa Markerad...";
+            btnShow.Text = "Visa ";
             btnShow.UseVisualStyleBackColor = true;
             btnShow.Click += btnShow_Click;
             // 
             // btnRemove
             // 
-            btnRemove.Location = new Point(668, 408);
+            btnRemove.Location = new Point(707, 408);
             btnRemove.Name = "btnRemove";
-            btnRemove.Size = new Size(164, 34);
+            btnRemove.Size = new Size(125, 34);
             btnRemove.TabIndex = 13;
-            btnRemove.Text = "Ta Bort Markerad";
+            btnRemove.Text = "Ta Bort";
             btnRemove.UseVisualStyleBackColor = true;
             btnRemove.Click += btnRemove_Click;
+            // 
+            // saveChangesBtn
+            // 
+            saveChangesBtn.Location = new Point(593, 408);
+            saveChangesBtn.Name = "saveChangesBtn";
+            saveChangesBtn.Size = new Size(112, 34);
+            saveChangesBtn.TabIndex = 14;
+            saveChangesBtn.Text = "Spara ";
+            saveChangesBtn.UseVisualStyleBackColor = true;
+            saveChangesBtn.Click += saveChangesBtn_Click;
             // 
             // FormPoddApp
             // 
             ClientSize = new Size(873, 454);
+            Controls.Add(saveChangesBtn);
             Controls.Add(btnRemove);
             Controls.Add(btnShow);
             Controls.Add(btnCategorys);
@@ -242,5 +254,6 @@
         private Button btnCategorys;
         private Button btnShow;
         private Button btnRemove;
+        private Button saveChangesBtn;
     }
 }

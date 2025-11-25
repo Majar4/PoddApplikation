@@ -13,6 +13,7 @@ namespace Models
         public string Title { get; set; }
         public DateTime PublicationDate { get; set; }
         public string EpisodeNumber { get; set; }
+        public string? ImageUrl { get; set; }
         public Episode()
         {
         

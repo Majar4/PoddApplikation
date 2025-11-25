@@ -106,6 +106,8 @@ namespace PL
                 if (fetchedPodcast == null)
                 {
                     MessageBox.Show("Fyll i sökrutan!");
+                    txtName.Clear();
+                    cbCategory.SelectedIndex = -1;
                     return;
                 }
 
@@ -117,6 +119,8 @@ namespace PL
                 if (error != null)
                 {
                     MessageBox.Show(error);
+                    txtName.Clear();
+                    cbCategory.SelectedIndex = -1;
                     return;
                 }
 

@@ -124,6 +124,7 @@
             picPod.Location = new Point(104, 71);
             picPod.Name = "picPod";
             picPod.Size = new Size(268, 224);
+            picPod.SizeMode = PictureBoxSizeMode.Zoom;
             picPod.TabIndex = 8;
             picPod.TabStop = false;
             // 

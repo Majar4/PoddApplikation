@@ -51,7 +51,27 @@ namespace PL
                 txtName.Text = thePodcast.Name;
                 txtUrl.Clear();
 
+                //Visa bilden för sökt podcast, laddas direkt i picboxen
+ 
+                if (!string.IsNullOrEmpty(thePodcast.ImageUrl))
+                {
+                    try
+                    {
+                        picPod.Load(thePodcast.ImageUrl);
+                    }
+                    catch
+                    {
+                        picPod.Image = null;
+                    }
+
+                }
+                else
+                {
+                    picPod.Image = null;
+                }
+
             }
+
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);

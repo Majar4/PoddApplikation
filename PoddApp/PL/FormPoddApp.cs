@@ -33,7 +33,10 @@ namespace PL
             {
                 string textUrl = txtUrl.Text;
 
-                string error = Validator.RssIsValid(textUrl);
+                var allPodcasts = await _podcastService.GetAllPodcastsAsync();
+                var existingURLs = allPodcasts.Select(m =>  m.Url).ToList();
+
+                string error = Validator.RssIsValid(textUrl, existingURLs);
 
                 if (error != null)
                 {
@@ -112,7 +115,11 @@ namespace PL
                 fetchedPodcast.Name = txtName.Text;
                 string setName = fetchedPodcast.Name;
 
-                string error = Validator.NameIsValid(setName);
+                var allPodcasts = await _podcastService.GetAllPodcastsAsync();
+
+                var existingNames = allPodcasts.Select(p => p.Name);
+
+                string error = Validator.NameIsValid(setName,existingNames);
 
                 if (error != null)
                 {
@@ -270,10 +277,14 @@ namespace PL
 
                 string newName = row.Cells["Name"].Value?.ToString();
 
-                string error = Validator.NameIsValid(newName);
+                var allPodcasts = await _podcastService.GetAllPodcastsAsync();
+                var existingNames = allPodcasts.Select(p => p.Name).ToList(); 
+                   
+                string error = Validator.NameIsValid(newName, existingNames);
                 if (error != null)
                 {
                     MessageBox.Show(error);
+                    txtName.Clear();
                     return;
                 }
                 

@@ -20,7 +20,14 @@ namespace BL
         //C
         public async Task AddCategoryAsync(string name)
         {
-            var category = new Category(name); 
+            string trimmedName = name.Trim();
+            var category = new Category(trimmedName);
+            var DBcategories = await GetAllCategoriesAsync();
+            //Only want to add category if not already in database 
+            if (DBcategories.Any(c => c.Name.Equals(trimmedName, StringComparison.OrdinalIgnoreCase)))
+            {
+                throw new InvalidOperationException("Kategorin finns redan. Vänligen skriv in en ny kategori.");
+            }
             await _repository.AddAsync(category);
         }
 

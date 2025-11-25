@@ -11,7 +11,7 @@ using System.Linq.Expressions;
 
 namespace DAL
 {
-    
+
 
     public class RssReaderClient
     {
@@ -37,11 +37,11 @@ namespace DAL
                 imageUrl = feed.ImageUrl.ToString();
             }
             //itunes image url
-           var itunesImage = feed.ElementExtensions
-                .FirstOrDefault(ext =>
-                ext.OuterName == "image" &&
-                    ext.OuterNamespace == "http://www.itunes.com/dtds/podcast-1.0.dtd");
-            if(itunesImage != null)
+            var itunesImage = feed.ElementExtensions
+                 .FirstOrDefault(ext =>
+                 ext.OuterName == "image" &&
+                     ext.OuterNamespace == "http://www.itunes.com/dtds/podcast-1.0.dtd");
+            if (itunesImage != null)
             {
                 var reader = itunesImage.GetReader();
                 if (reader.MoveToAttribute("href"))
@@ -73,14 +73,28 @@ namespace DAL
                     EpisodeNumber = item.Id
                 };
 
+                //Hämta avsnittsbilden från itunes:image om den finns
+                var itunesEpisodeImage = item.ElementExtensions
+                    .FirstOrDefault(ext =>
+                    ext.OuterName == "image" &&
+                    ext.OuterNamespace == "http://www.itunes.com/dtds/podcast-1.0.dtd");
+                
+                if (itunesEpisodeImage != null)
+                {
+                    var reader = itunesEpisodeImage.GetReader();
+                    if (reader.MoveToAttribute("href"))
+                    {
+                        episode.ImageUrl = reader.Value;
+                    }
+                }
+
                 aPodcast.Episodes.Add(episode);
             }
 
-            podcasts.Add(aPodcast);
-
-            return podcasts;
+        podcasts.Add(aPodcast);
+        return podcasts;
+            
         }
+
     }
-
-
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -45,7 +46,36 @@ namespace PL
                 lblTitle.Text = "Titel: " + title;
                 lblDate.Text = "Datum: " + date;
                 tbDescription.Text = RemoveHtmlTags(description);
+
+                //hämta bild till episode om finns
+                var episode = _podcast.Episodes.FirstOrDefault(ep => ep.Title == title);
+                string imageToShow = null;
+
+                if (episode != null && !string.IsNullOrEmpty(episode.ImageUrl))
+                {
+                    imageToShow = episode.ImageUrl;
+                }
+                else if (!string.IsNullOrEmpty(_podcast.ImageUrl))
+                {
+                    imageToShow = _podcast.ImageUrl;
+                }
+                if (!string.IsNullOrEmpty(imageToShow)) {
+                    try
+                    {
+                        picEpisode.Load(imageToShow);
+                        picEpisode.SizeMode = PictureBoxSizeMode.Zoom;
+                    }
+                    catch
+                    {
+                        picEpisode.Image = null;
+                    }
+                }
+                else
+                {
+                    picEpisode.Image = null; // ingen bild
+                }
             }
+
             else
             {
                 MessageBox.Show("Du måste välja ett avsnitt");

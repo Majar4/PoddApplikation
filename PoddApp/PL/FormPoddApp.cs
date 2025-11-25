@@ -48,15 +48,23 @@ namespace PL
                 txtName.Text = thePodcast.Name;
                 txtUrl.Clear();
 
-                //Visa bilden för sökt podcast
+                //Visa bilden för sökt podcast, laddas direkt i picboxen
+ 
                 if (!string.IsNullOrEmpty(thePodcast.ImageUrl))
                 {
-                    var img = await _podcastService.FetchImageAsync(thePodcast.ImageUrl);
-                    picPod.Image = img;
+                    try
+                    {
+                        picPod.Load(thePodcast.ImageUrl);
+                    }
+                    catch
+                    {
+                        picPod.Image = null;
+                    }
+
                 }
                 else
                 {
-                    picPod.Image = null; // Om defaultbild Properties.Resources.defaultpod;
+                    picPod.Image = null;
                 }
 
             }

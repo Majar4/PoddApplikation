@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.ServiceModel.Syndication;
 using Models;
+using System.Linq.Expressions;
 
 
 namespace DAL

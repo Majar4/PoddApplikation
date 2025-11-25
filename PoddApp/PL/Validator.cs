@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using BL;
 
 namespace PL
 {
@@ -23,6 +25,17 @@ namespace PL
             
             if (!url.StartsWith("http://") && !url.StartsWith("https://")){
                 return "URL måste börja med http";
+            }
+
+            return null;
+        }
+
+        private static string isNotDuplicate(string input, IEnumerable<string> existingValues)
+        {
+
+            if (existingValues.Any(p => p.Equals(input, StringComparison.OrdinalIgnoreCase)))
+            {
+                return "Podden finns redan sparad!";
             }
 
             return null;
@@ -53,7 +66,7 @@ namespace PL
                 return null; 
         }
 
-        public static string RssIsValid(string rss)
+        public static string RssIsValid(string rss, IEnumerable<string> existingURLs)
         {
             string checkIfEmpty = isNotEmpty(rss);
             if(checkIfEmpty != null)
@@ -67,10 +80,17 @@ namespace PL
                 return checkRss;
             }
 
+            string checkDuplicate = isNotDuplicate(rss, existingURLs);
+
+            if (checkDuplicate != null)
+            {
+                return checkDuplicate;
+            }
+
             return null;
         }
 
-        public static string NameIsValid(string input)
+        public static string NameIsValid(string input, IEnumerable<string> existingNames)
         {
             string checkIfEmpty = isNotEmpty(input);
             if (checkIfEmpty != null)
@@ -82,6 +102,13 @@ namespace PL
             if (checkIfNumber != null)
             {
                 return checkIfNumber;
+            }
+
+            string checkDuplicate = isNotDuplicate(input, existingNames);
+
+            if (checkDuplicate != null)
+            {
+                return checkDuplicate;
             }
 
             return null;

@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             dgvCategoryList = new DataGridView();
+            colCategoryId = new DataGridViewTextBoxColumn();
+            Benämning = new DataGridViewTextBoxColumn();
             btnShowAll = new Button();
             btnSearch = new Button();
             lblNameSearch = new Label();
@@ -37,8 +39,6 @@
             btnDelete = new Button();
             btnSaveChanges = new Button();
             btnClose = new Button();
-            colCategoryId = new DataGridViewTextBoxColumn();
-            Benämning = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvCategoryList).BeginInit();
             SuspendLayout();
             // 
@@ -52,6 +52,22 @@
             dgvCategoryList.RowHeadersWidth = 62;
             dgvCategoryList.Size = new Size(222, 290);
             dgvCategoryList.TabIndex = 0;
+            // 
+            // colCategoryId
+            // 
+            colCategoryId.HeaderText = "KategoriID";
+            colCategoryId.MinimumWidth = 8;
+            colCategoryId.Name = "colCategoryId";
+            colCategoryId.Visible = false;
+            colCategoryId.Width = 150;
+            // 
+            // Benämning
+            // 
+            Benämning.DataPropertyName = "Name";
+            Benämning.HeaderText = "Benämning";
+            Benämning.MinimumWidth = 6;
+            Benämning.Name = "Benämning";
+            Benämning.Width = 125;
             // 
             // btnShowAll
             // 
@@ -113,6 +129,7 @@
             btnDelete.TabIndex = 6;
             btnDelete.Text = "Ta bort Markerad";
             btnDelete.UseVisualStyleBackColor = true;
+            btnDelete.Click += btnDelete_Click;
             // 
             // btnSaveChanges
             // 
@@ -135,22 +152,6 @@
             btnClose.Text = "STÄNG";
             btnClose.UseVisualStyleBackColor = true;
             btnClose.Click += btnClose_Click;
-            // 
-            // colCategoryId
-            // 
-            colCategoryId.HeaderText = "KategoriID";
-            colCategoryId.MinimumWidth = 8;
-            colCategoryId.Name = "colCategoryId";
-            colCategoryId.Visible = false;
-            colCategoryId.Width = 150;
-            // 
-            // Benämning
-            // 
-            Benämning.DataPropertyName = "Name";
-            Benämning.HeaderText = "Benämning";
-            Benämning.MinimumWidth = 6;
-            Benämning.Name = "Benämning";
-            Benämning.Width = 125;
             // 
             // FormCategorys
             // 

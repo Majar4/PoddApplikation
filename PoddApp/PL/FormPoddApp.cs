@@ -22,11 +22,8 @@ namespace PL
             _categoryService = categoryService;
 
             this.Load += FormPoddApp_Load;
-            LoadPodcastsAsync();
-            LoadCategoriesAsync();
-            
-
         }
+
 
         private async void btnSearch_Click(object sender, EventArgs e)
         {
@@ -90,13 +87,11 @@ namespace PL
         {
             try
             {
- 
+
                 var allPodcasts = await _podcastService.GetAllPodcastsAsync();
                 var allCategories = await _categoryService.GetAllCategoriesAsync();
 
                 var categoryNames = allCategories.Select(c => c.Name).ToList();
-
-                ////categoryNames.Add("Ingen kategori");
 
                 dataGridView1.Columns.Clear();
 
@@ -105,9 +100,10 @@ namespace PL
                 dataGridView1.Columns["PCID"].Visible = false;
 
                 var comboColumn = new DataGridViewComboBoxColumn();
+                //comboColumn.DisplayStyle = DataGridViewComboBoxDisplayStyle.DropDownButton;
                 comboColumn.Name = "Category";
                 comboColumn.HeaderText = "Kategori";
-                comboColumn.DataSource = _categoriesdg;
+                comboColumn.DataSource = _categoriesdg; //To.List
                 comboColumn.DisplayMember = "Name";
                 comboColumn.ValueMember = "CategoryID";
                 dataGridView1.Columns.Add(comboColumn);
@@ -141,9 +137,6 @@ namespace PL
 
                 fetchedPodcast.Name = txtName.Text;
                 string setName = fetchedPodcast.Name;
-
-                var pcid = fetchedPodcast.PCID;
-                var aPodcast = await _podcastService.GetPodcastByIdAsync(pcid);
 
                 var allPodcasts = await _podcastService.GetAllPodcastsAsync();
 
@@ -221,6 +214,7 @@ namespace PL
 
         private async Task LoadCategoriesAsync()
         {
+
             var DBcategories = await _categoryService.GetAllCategoriesAsync();
 
             _categoriescb.Clear();
@@ -236,7 +230,6 @@ namespace PL
             cbCategory.DataSource = _categoriescb;
             cbCategory.DisplayMember = "Name";
             cbCategory.ValueMember = "CategoryID";
-
             cbCategory.SelectedIndex = -1;
             cbCategory.DropDownStyle = ComboBoxStyle.DropDownList;
 
@@ -311,7 +304,9 @@ namespace PL
                 string newName = row.Cells["Name"].Value?.ToString();
 
                 var allPodcasts = await _podcastService.GetAllPodcastsAsync();
-                var existingNames = allPodcasts.Select(p => p.Name).ToList(); 
+                var existingNames = allPodcasts.
+                    Where (p => p.PCID != pcid).
+                    Select(p => p.Name).ToList(); 
                    
                 string error = Validator.NameIsValid(newName, existingNames);
                 if (error != null)
@@ -326,6 +321,7 @@ namespace PL
 
                 Podcast podcast = await _podcastService.GetPodcastByIdAsync(pcid);
                 podcast.Name = newName;
+
                 podcast.CategoryID = string.IsNullOrEmpty(newCategoryId) ? null : newCategoryId;
 
                 await _podcastService.UpdatePodcastAsync(podcast);

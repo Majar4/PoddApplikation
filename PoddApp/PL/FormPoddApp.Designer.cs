@@ -39,13 +39,15 @@
             picPod = new PictureBox();
             lblPodList = new Label();
             dataGridView1 = new DataGridView();
-            colName = new DataGridViewTextBoxColumn();
-            colCategory = new DataGridViewComboBoxColumn();
-            colPodId = new DataGridViewComboBoxColumn();
             btnCategorys = new Button();
             btnShow = new Button();
             btnRemove = new Button();
             saveChangesBtn = new Button();
+            cbFilterCategory = new ComboBox();
+            label1 = new Label();
+            colName = new DataGridViewTextBoxColumn();
+            colCategory = new DataGridViewComboBoxColumn();
+            colPodId = new DataGridViewComboBoxColumn();
             ((System.ComponentModel.ISupportInitialize)picPod).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
@@ -55,7 +57,7 @@
             lblUrl.AutoSize = true;
             lblUrl.Location = new Point(23, 25);
             lblUrl.Name = "lblUrl";
-            lblUrl.Size = new Size(47, 25);
+            lblUrl.Size = new Size(38, 20);
             lblUrl.TabIndex = 0;
             lblUrl.Text = "URL:";
             // 
@@ -64,7 +66,7 @@
             lblName.AutoSize = true;
             lblName.Location = new Point(23, 328);
             lblName.Name = "lblName";
-            lblName.Size = new Size(64, 25);
+            lblName.Size = new Size(52, 20);
             lblName.TabIndex = 1;
             lblName.Text = "Namn:";
             // 
@@ -73,7 +75,7 @@
             lblCategory.AutoSize = true;
             lblCategory.Location = new Point(23, 364);
             lblCategory.Name = "lblCategory";
-            lblCategory.Size = new Size(82, 25);
+            lblCategory.Size = new Size(69, 20);
             lblCategory.TabIndex = 2;
             lblCategory.Text = "Kategori:";
             // 
@@ -81,14 +83,14 @@
             // 
             txtUrl.Location = new Point(104, 19);
             txtUrl.Name = "txtUrl";
-            txtUrl.Size = new Size(150, 31);
+            txtUrl.Size = new Size(150, 27);
             txtUrl.TabIndex = 3;
             // 
             // txtName
             // 
             txtName.Location = new Point(104, 322);
             txtName.Name = "txtName";
-            txtName.Size = new Size(150, 31);
+            txtName.Size = new Size(150, 27);
             txtName.TabIndex = 4;
             // 
             // cbCategory
@@ -96,7 +98,7 @@
             cbCategory.FormattingEnabled = true;
             cbCategory.Location = new Point(104, 356);
             cbCategory.Name = "cbCategory";
-            cbCategory.Size = new Size(182, 33);
+            cbCategory.Size = new Size(182, 28);
             cbCategory.TabIndex = 5;
             // 
             // btnSearch
@@ -134,7 +136,7 @@
             lblPodList.Font = new Font("Segoe UI", 13F);
             lblPodList.Location = new Point(478, 16);
             lblPodList.Name = "lblPodList";
-            lblPodList.Size = new Size(283, 36);
+            lblPodList.Size = new Size(240, 30);
             lblPodList.TabIndex = 9;
             lblPodList.Text = "Mina Sparade PodCasts";
             // 
@@ -145,30 +147,8 @@
             dataGridView1.Location = new Point(469, 71);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(363, 318);
+            dataGridView1.Size = new Size(406, 318);
             dataGridView1.TabIndex = 10;
-            // 
-            // colName
-            // 
-            colName.HeaderText = "Namn";
-            colName.MinimumWidth = 8;
-            colName.Name = "colName";
-            colName.Width = 150;
-            // 
-            // colCategory
-            // 
-            colCategory.HeaderText = "Kategori";
-            colCategory.MinimumWidth = 8;
-            colCategory.Name = "colCategory";
-            colCategory.Width = 150;
-            // 
-            // colPodId
-            // 
-            colPodId.HeaderText = "PodCastId";
-            colPodId.MinimumWidth = 8;
-            colPodId.Name = "colPodId";
-            colPodId.Visible = false;
-            colPodId.Width = 150;
             // 
             // btnCategorys
             // 
@@ -210,9 +190,51 @@
             saveChangesBtn.UseVisualStyleBackColor = true;
             saveChangesBtn.Click += saveChangesBtn_Click;
             // 
+            // cbFilterCategory
+            // 
+            cbFilterCategory.FormattingEnabled = true;
+            cbFilterCategory.Location = new Point(724, 37);
+            cbFilterCategory.Name = "cbFilterCategory";
+            cbFilterCategory.Size = new Size(151, 28);
+            cbFilterCategory.TabIndex = 15;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(725, 10);
+            label1.Name = "label1";
+            label1.Size = new Size(149, 20);
+            label1.TabIndex = 16;
+            label1.Text = "Filtrera efter kategori";
+            // 
+            // colName
+            // 
+            colName.DataPropertyName = "Name";
+            colName.HeaderText = "Namn";
+            colName.MinimumWidth = 8;
+            colName.Name = "colName";
+            colName.Width = 150;
+            // 
+            // colCategory
+            // 
+            colCategory.HeaderText = "Kategori";
+            colCategory.MinimumWidth = 8;
+            colCategory.Name = "colCategory";
+            colCategory.Width = 150;
+            // 
+            // colPodId
+            // 
+            colPodId.HeaderText = "PodCastId";
+            colPodId.MinimumWidth = 8;
+            colPodId.Name = "colPodId";
+            colPodId.Visible = false;
+            colPodId.Width = 150;
+            // 
             // FormPoddApp
             // 
-            ClientSize = new Size(873, 454);
+            ClientSize = new Size(959, 454);
+            Controls.Add(label1);
+            Controls.Add(cbFilterCategory);
             Controls.Add(saveChangesBtn);
             Controls.Add(btnRemove);
             Controls.Add(btnShow);
@@ -249,12 +271,14 @@
         private PictureBox picPod;
         private Label lblPodList;
         private DataGridView dataGridView1;
-        private DataGridViewTextBoxColumn colName;
-        private DataGridViewComboBoxColumn colCategory;
-        private DataGridViewComboBoxColumn colPodId;
         private Button btnCategorys;
         private Button btnShow;
         private Button btnRemove;
         private Button saveChangesBtn;
+        private ComboBox cbFilterCategory;
+        private Label label1;
+        private DataGridViewTextBoxColumn colName;
+        private DataGridViewComboBoxColumn colCategory;
+        private DataGridViewComboBoxColumn colPodId;
     }
 }

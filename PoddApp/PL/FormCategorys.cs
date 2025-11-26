@@ -133,8 +133,6 @@ namespace PL
                 var selectedRow = dgvCategoryList.SelectedRows[0];
                 string catID = selectedRow.Cells["CategoryID"].Value?.ToString();
                 string catName = selectedRow.Cells["Benämning"].Value?.ToString();
-                
-
 
                 var popup = MessageBox.Show("Är du säker på att du vill radera " + catName + "?",
                     "Bekräfta radering",
@@ -142,15 +140,14 @@ namespace PL
                 if (popup == DialogResult.Yes)
                 {
                     var allPodcasts = await _podcastService.GetAllPodcastsAsync();
-                    foreach (var podcast in allPodcasts)
-                    {
-                        if (podcast.CategoryID != catID)
+                    bool podcastUsesCategory = allPodcasts.Any(p => p.CategoryID == catID);
+                    
+                        if (podcastUsesCategory)
                         {
                             MessageBox.Show("Denna kategori tillhör poddflöden, går ej att radera");
                             return;
                         }
-                        else
-                        {
+                        
                             await _categoryService.DeleteCategoryAsync(catID);
                             var DBcategories = await _categoryService.GetAllCategoriesAsync();
                             _categories.Clear();
@@ -160,9 +157,7 @@ namespace PL
                             }
                             CorrectColumnSettings();
                             MessageBox.Show(catName + " har raderats");
-                        }
-                    }
-                  
+
                 }
             } catch(Exception ex)
             {

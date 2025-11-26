@@ -83,7 +83,7 @@ namespace PL
                     try
                     {
                         var catInDb = await _categoryService.GetCategoryByIdAsync(cat.CategoryID);
-                        if (catInDb != null && !string.Equals(catInDb.Name, cat.Name.Trim(), StringComparison.OrdinalIgnoreCase));
+                        if (catInDb != null && !string.Equals(catInDb.Name, cat.Name.Trim(), StringComparison.OrdinalIgnoreCase)) ;
                         {
                             await _categoryService.RenameCategoryAsync(cat.CategoryID, cat.Name);
                             MessageBox.Show("Kategorinamn ändrad");
@@ -117,6 +117,39 @@ namespace PL
                 _categories.Add(cat);
             }
             CorrectColumnSettings();
+        }
+
+        private async void btnDelete_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dgvCategoryList.SelectedRows.Count == 0)
+                {
+                    MessageBox.Show("Markera en rad för att radera kategorin");
+                    return;
+                }
+                var selectedRow = dgvCategoryList.SelectedRows[0];
+                string catID = selectedRow.Cells["CategoryID"].Value?.ToString();
+                string catName = selectedRow.Cells["Benämning"].Value?.ToString();
+                var popup = MessageBox.Show("Är du säker på att du vill radera " + catName + "?",
+                    "Bekräfta radering",
+                    MessageBoxButtons.YesNo);
+                if (popup == DialogResult.Yes)
+                {
+                    await _categoryService.DeleteCategoryAsync(catID);
+                    var DBcategories = await _categoryService.GetAllCategoriesAsync();
+                    _categories.Clear();
+                    foreach(var cat in DBcategories)
+                    {
+                        _categories.Add(cat);
+                    }
+                    CorrectColumnSettings();
+                    MessageBox.Show(catName + " har raderats");
+                }
+            } catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

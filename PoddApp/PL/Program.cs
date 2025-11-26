@@ -1,6 +1,7 @@
 using DAL;
 using Models;
 using BL;
+using System.Threading.Tasks;
 namespace PL
 {
     internal static class Program
@@ -9,7 +10,7 @@ namespace PL
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static async Task Main()
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
@@ -23,8 +24,8 @@ namespace PL
 
             var podcastService = new PodcastService(podcastRepo, client);
             var categoryService = new CategoryService(categoryRepo);
-            
-            ApplicationConfiguration.Initialize();
+
+                ApplicationConfiguration.Initialize();
             Application.Run(new FormPoddApp(podcastService, categoryService));
 
         }

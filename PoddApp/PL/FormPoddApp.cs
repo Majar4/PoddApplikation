@@ -13,7 +13,7 @@ namespace PL
         private Podcast? fetchedPodcast;
         private BindingList<Category> _categoriescb = new BindingList<Category>();
         private BindingList<Category> _categoriesdg = new BindingList<Category>();
-
+        
 
         public FormPoddApp(PodcastService podcastService, CategoryService categoryService)
         {
@@ -25,6 +25,7 @@ namespace PL
             LoadPodcastsAsync();
             LoadCategoriesAsync();
             
+
         }
 
         private async void btnSearch_Click(object sender, EventArgs e)
@@ -80,7 +81,7 @@ namespace PL
 
         private async void btnCategorys_Click(object sender, EventArgs e)
         {
-            FormCategorys form = new FormCategorys(_categoryService);
+            FormCategorys form = new FormCategorys(_categoryService, _podcastService);
             form.ShowDialog();
             await LoadCategoriesAsync();
         }
@@ -89,16 +90,19 @@ namespace PL
         {
             try
             {
+ 
                 var allPodcasts = await _podcastService.GetAllPodcastsAsync();
                 var allCategories = await _categoryService.GetAllCategoriesAsync();
+
                 var categoryNames = allCategories.Select(c => c.Name).ToList();
-                categoryNames.Add("Ingen kategori");
+
+                ////categoryNames.Add("Ingen kategori");
+
                 dataGridView1.Columns.Clear();
 
                 dataGridView1.Columns.Add("Name", "Namn");
                 dataGridView1.Columns.Add("PCID", "PCID");
                 dataGridView1.Columns["PCID"].Visible = false;
-
 
                 var comboColumn = new DataGridViewComboBoxColumn();
                 comboColumn.Name = "Category";
@@ -110,9 +114,10 @@ namespace PL
 
                 foreach (var podcast in allPodcasts)
                 {
-
                     string categoryId = podcast.CategoryID ?? null;
-                    dataGridView1.Rows.Add(podcast.Name, podcast.PCID, categoryId);
+
+                        dataGridView1.Rows.Add(podcast.Name, podcast.PCID, categoryId);
+                    
                 }
             }
             catch (Exception ex)
@@ -136,6 +141,9 @@ namespace PL
 
                 fetchedPodcast.Name = txtName.Text;
                 string setName = fetchedPodcast.Name;
+
+                var pcid = fetchedPodcast.PCID;
+                var aPodcast = await _podcastService.GetPodcastByIdAsync(pcid);
 
                 var allPodcasts = await _podcastService.GetAllPodcastsAsync();
 
@@ -230,7 +238,8 @@ namespace PL
             cbCategory.ValueMember = "CategoryID";
 
             cbCategory.SelectedIndex = -1;
-            cbCategory.DropDownStyle = ComboBoxStyle.DropDownList;  
+            cbCategory.DropDownStyle = ComboBoxStyle.DropDownList;
+
         }
 
         private async void FormPoddApp_Load(object sender, EventArgs e)

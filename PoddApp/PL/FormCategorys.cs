@@ -17,14 +17,16 @@ namespace PL
     public partial class FormCategorys : Form
     {
         private readonly CategoryService _categoryService;
+        private readonly PodcastService _podcastService;
         private BindingList<Category> _categories = new BindingList<Category>();
         private List<Category> _renamedCategories = new();
         private List<Category> _newCategories = new();
 
-        public FormCategorys(CategoryService categoryService)
+        public FormCategorys(CategoryService categoryService, PodcastService podcastService)
         {
             InitializeComponent();
             _categoryService = categoryService;
+            _podcastService = podcastService;
             dgvCategoryList.DataSource = _categories;
             _categories.ListChanged += category_ListChanged; // subscribe to method about list being changed (add/update)
 
@@ -131,20 +133,36 @@ namespace PL
                 var selectedRow = dgvCategoryList.SelectedRows[0];
                 string catID = selectedRow.Cells["CategoryID"].Value?.ToString();
                 string catName = selectedRow.Cells["Benämning"].Value?.ToString();
+                
+
+
                 var popup = MessageBox.Show("Är du säker på att du vill radera " + catName + "?",
                     "Bekräfta radering",
                     MessageBoxButtons.YesNo);
                 if (popup == DialogResult.Yes)
                 {
-                    await _categoryService.DeleteCategoryAsync(catID);
-                    var DBcategories = await _categoryService.GetAllCategoriesAsync();
-                    _categories.Clear();
-                    foreach(var cat in DBcategories)
+                    var allPodcasts = await _podcastService.GetAllPodcastsAsync();
+                    foreach (var podcast in allPodcasts)
                     {
-                        _categories.Add(cat);
+                        if (podcast.CategoryID != catID)
+                        {
+                            MessageBox.Show("Denna kategori tillhör poddflöden, går ej att radera");
+                            return;
+                        }
+                        else
+                        {
+                            await _categoryService.DeleteCategoryAsync(catID);
+                            var DBcategories = await _categoryService.GetAllCategoriesAsync();
+                            _categories.Clear();
+                            foreach (var cat in DBcategories)
+                            {
+                                _categories.Add(cat);
+                            }
+                            CorrectColumnSettings();
+                            MessageBox.Show(catName + " har raderats");
+                        }
                     }
-                    CorrectColumnSettings();
-                    MessageBox.Show(catName + " har raderats");
+                  
                 }
             } catch(Exception ex)
             {

@@ -16,8 +16,20 @@ namespace DAL
         }
 
         //C
-        public async Task AddAsync(Podcast savedPodcast) { 
-            await PodcastCollection.InsertOneAsync(savedPodcast);
+        public async Task AddAsync(Podcast savedPodcast) 
+        {
+            using var session = await PodcastCollection.Database.Client.StartSessionAsync();
+            session.StartTransaction();
+            try
+            {
+                await PodcastCollection.InsertOneAsync(session, savedPodcast);
+                await session.CommitTransactionAsync();
+            }
+            catch
+            {
+                await session.AbortTransactionAsync(); 
+                throw;
+            }
         }
 
         //R
@@ -36,18 +48,42 @@ namespace DAL
             
 
         //U
-        public async Task<bool> UpdateAsync(Podcast enPodcast) {
-            var filter = Builders<Podcast>.Filter.Eq(p => p.PCID, enPodcast.PCID);
-            var update = Builders<Podcast>.Update.Set(p => p.Name, enPodcast.Name)
-                .Set(p => p.CategoryID, enPodcast.CategoryID);
-            var result = await PodcastCollection.UpdateOneAsync(filter, update);
-            return result.ModifiedCount > 0;
+        public async Task<bool> UpdateAsync(Podcast enPodcast) 
+        {
+            using var session = await PodcastCollection.Database.Client.StartSessionAsync();
+            session.StartTransaction();
+            try
+            {
+                var filter = Builders<Podcast>.Filter.Eq(p => p.PCID, enPodcast.PCID);
+                var update = Builders<Podcast>.Update.Set(p => p.Name, enPodcast.Name)
+                    .Set(p => p.CategoryID, enPodcast.CategoryID);
+                var result = await PodcastCollection.UpdateOneAsync(session, filter, update);
+                await session.CommitTransactionAsync();
+                return result.ModifiedCount > 0;
+            }
+            catch
+            {
+                await session.AbortTransactionAsync();
+                throw;
+            }
         }
 
         //D
-        public async Task DeleteAsync(string podcastID) { 
-            var filter = Builders<Podcast>.Filter.Eq(p => p.PCID, podcastID);
-            await PodcastCollection.DeleteOneAsync(filter);
+        public async Task DeleteAsync(string podcastID) 
+        {
+            using var session = await PodcastCollection.Database.Client.StartSessionAsync();
+            session.StartTransaction();
+            try
+            {
+                var filter = Builders<Podcast>.Filter.Eq(p => p.PCID, podcastID);
+                await PodcastCollection.DeleteOneAsync(session, filter);
+                await session.CommitTransactionAsync();
+            }
+            catch
+            {
+                await session.AbortTransactionAsync();
+                throw;
+            }
         }
     }
 }

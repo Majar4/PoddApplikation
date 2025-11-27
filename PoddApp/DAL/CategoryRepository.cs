@@ -22,7 +22,18 @@ namespace DAL
         //C
         public async Task AddAsync(Category aCategory)
         {
-            await CategoryCollection.InsertOneAsync(aCategory);
+            using var session = await CategoryCollection.Database.Client.StartSessionAsync();
+            session.StartTransaction();
+            try
+            {
+                await CategoryCollection.InsertOneAsync(session, aCategory);
+                await session.CommitTransactionAsync();
+            }
+            catch
+            {
+                await session.AbortTransactionAsync();
+                throw;
+            }
         }
 
         //R
@@ -42,17 +53,39 @@ namespace DAL
         //U
         public async Task<bool> UpdateAsync(Category aCategory)
         {
-            var filter = Builders<Category>.Filter.Eq(c => c.CategoryID, aCategory.CategoryID);
-            var update = Builders<Category>.Update.Set(c => c.Name, aCategory.Name);
-            var result = await CategoryCollection.UpdateOneAsync(filter, update);
-            return result.ModifiedCount > 0;
+            using var session = await CategoryCollection.Database.Client.StartSessionAsync();
+            session.StartTransaction();
+            try
+            {
+                var filter = Builders<Category>.Filter.Eq(c => c.CategoryID, aCategory.CategoryID);
+                var update = Builders<Category>.Update.Set(c => c.Name, aCategory.Name);
+                var result = await CategoryCollection.UpdateOneAsync(session, filter, update);
+                await session.CommitTransactionAsync();
+                return result.ModifiedCount > 0;
+            }
+            catch
+            {
+                await session.AbortTransactionAsync();
+                throw;
+            }
         }
 
         //D
         public async Task DeleteAsync(string categoryID)
         {
-            var filter = Builders<Category>.Filter.Eq(c => c.CategoryID, categoryID);
-            await CategoryCollection.DeleteOneAsync(filter);
+            using var session = await CategoryCollection.Database.Client.StartSessionAsync();
+            session.StartTransaction();
+            try
+            {
+                var filter = Builders<Category>.Filter.Eq(c => c.CategoryID, categoryID);
+                await CategoryCollection.DeleteOneAsync(session, filter);
+                await session.CommitTransactionAsync();
+            }
+            catch
+            {
+                await session.AbortTransactionAsync();
+                throw;
+            }
         }
     }
 }

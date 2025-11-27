@@ -13,7 +13,6 @@ namespace PL
         private Podcast? fetchedPodcast;
         private BindingList<Category> _categoriescb = new BindingList<Category>();
         private BindingList<Category> _categoriesdg = new BindingList<Category>();
-        
 
         public FormPoddApp(PodcastService podcastService, CategoryService categoryService)
         {
@@ -22,6 +21,7 @@ namespace PL
             _categoryService = categoryService;
 
             this.Load += FormPoddApp_Load;
+            CbFilterCategory();
         }
 
 
@@ -32,7 +32,7 @@ namespace PL
                 string textUrl = txtUrl.Text;
 
                 var allPodcasts = await _podcastService.GetAllPodcastsAsync();
-                var existingURLs = allPodcasts.Select(m =>  m.Url).ToList();
+                var existingURLs = allPodcasts.Select(m => m.Url).ToList();
 
                 string error = Validator.RssIsValid(textUrl, existingURLs);
 
@@ -50,7 +50,7 @@ namespace PL
                 txtUrl.Clear();
 
                 //Visa bilden för sökt podcast, laddas direkt i picboxen
- 
+
                 if (!string.IsNullOrEmpty(thePodcast.ImageUrl))
                 {
                     try
@@ -112,8 +112,8 @@ namespace PL
                 {
                     string categoryId = podcast.CategoryID ?? null;
 
-                        dataGridView1.Rows.Add(podcast.Name, podcast.PCID, categoryId);
-                    
+                    dataGridView1.Rows.Add(podcast.Name, podcast.PCID, categoryId);
+
                 }
             }
             catch (Exception ex)
@@ -142,7 +142,7 @@ namespace PL
 
                 var existingNames = allPodcasts.Select(p => p.Name);
 
-                string error = Validator.NameIsValid(setName,existingNames);
+                string error = Validator.NameIsValid(setName, existingNames);
 
                 if (error != null)
                 {
@@ -227,6 +227,10 @@ namespace PL
 
             }
 
+            var cbAllCategories = new Category();
+            cbAllCategories.CategoryID = null;
+            cbAllCategories.Name = "Alla";
+            _categoriescb.Insert(0, cbAllCategories);
             cbCategory.DataSource = _categoriescb;
             cbCategory.DisplayMember = "Name";
             cbCategory.ValueMember = "CategoryID";
@@ -237,7 +241,7 @@ namespace PL
 
         private async void FormPoddApp_Load(object sender, EventArgs e)
         {
-            
+
             await LoadCategoriesAsync();
             await LoadPodcastsAsync();
         }
@@ -296,7 +300,8 @@ namespace PL
 
                 string pcid = row.Cells["PCID"].Value?.ToString();
 
-                if (string.IsNullOrEmpty(pcid)) { 
+                if (string.IsNullOrEmpty(pcid))
+                {
                     MessageBox.Show("Kunde inte läsa in podcasten");
                     return;
                 }
@@ -305,9 +310,9 @@ namespace PL
 
                 var allPodcasts = await _podcastService.GetAllPodcastsAsync();
                 var existingNames = allPodcasts.
-                    Where (p => p.PCID != pcid).
-                    Select(p => p.Name).ToList(); 
-                   
+                    Where(p => p.PCID != pcid).
+                    Select(p => p.Name).ToList();
+
                 string error = Validator.NameIsValid(newName, existingNames);
                 if (error != null)
                 {
@@ -315,9 +320,9 @@ namespace PL
                     txtName.Clear();
                     return;
                 }
-                
+
                 string newCategoryId = row.Cells["Category"].Value?.ToString();
-                
+
 
                 Podcast podcast = await _podcastService.GetPodcastByIdAsync(pcid);
                 podcast.Name = newName;
@@ -326,14 +331,44 @@ namespace PL
 
                 await _podcastService.UpdatePodcastAsync(podcast);
                 MessageBox.Show("Informationen ändrad!");
-                
+
                 await LoadPodcastsAsync();
             }
 
             catch (Exception ex)
             {
                 MessageBox.Show("Fel: " + ex.Message);
-                 
+
+            }
+        }
+
+        private void CbFilterCategory()
+        {
+            cbFilterCategory.DataSource = _categoriescb;
+            cbFilterCategory.DisplayMember = "Name";
+            cbFilterCategory.SelectionChangeCommitted += CbFilterCategory_SelectionChangeCommitted;
+        }
+
+        private async void CbFilterCategory_SelectionChangeCommitted(object? sender, EventArgs e)
+        {
+            var selectedCat = cbFilterCategory.SelectedItem as Category;
+            string selectedCatId = selectedCat.CategoryID;
+            var selectedCatName = selectedCat.Name;
+            var allPodcasts = await _podcastService.GetAllPodcastsAsync();
+            dataGridView1.Rows.Clear();
+            foreach (Podcast podcast in allPodcasts)
+            {
+                if (podcast.CategoryID == selectedCatId)
+                {
+                    dataGridView1.Rows.Add(podcast.Name, podcast.PCID, podcast.CategoryID);
+                }
+                else if (selectedCatName == "Alla")
+                {
+                    string podName = podcast.Name;
+                    string podPCID = podcast.PCID;
+                    string podCategoryID = podcast.CategoryID;
+                    dataGridView1.Rows.Add(podName, podPCID, podCategoryID);
+                }
             }
         }
     }

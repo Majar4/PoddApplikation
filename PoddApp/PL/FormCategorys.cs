@@ -16,13 +16,13 @@ namespace PL
 
     public partial class FormCategorys : Form
     {
-        private readonly CategoryService _categoryService;
-        private readonly PodcastService _podcastService;
+        private readonly ICategoryService _categoryService;
+        private readonly IPodcastService _podcastService;
         private BindingList<Category> _categories = new BindingList<Category>();
         private List<Category> _renamedCategories = new();
         private List<Category> _newCategories = new();
 
-        public FormCategorys(CategoryService categoryService, PodcastService podcastService)
+        public FormCategorys(ICategoryService categoryService, IPodcastService podcastService)
         {
             InitializeComponent();
             _categoryService = categoryService;

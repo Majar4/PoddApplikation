@@ -8,13 +8,13 @@ namespace PL
 {
     public partial class FormPoddApp : Form
     {
-        private readonly PodcastService _podcastService;
-        private readonly CategoryService _categoryService;
+        private readonly IPodcastService _podcastService;
+        private readonly ICategoryService _categoryService;
         private Podcast? fetchedPodcast;
         private BindingList<Category> _categoriescb = new BindingList<Category>();
         private BindingList<Category> _categoriesdg = new BindingList<Category>();
 
-        public FormPoddApp(PodcastService podcastService, CategoryService categoryService)
+        public FormPoddApp(IPodcastService podcastService, ICategoryService categoryService)
         {
             InitializeComponent();
             _podcastService = podcastService;

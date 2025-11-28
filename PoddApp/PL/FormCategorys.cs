@@ -35,17 +35,21 @@ namespace PL
 
         private void CorrectColumnSettings()
         {
-            if (dgvCategoryList.Columns["CategoryID"] != null)
+            var categoryIDColumn = dgvCategoryList.Columns["CategoryID"];
+
+            if (categoryIDColumn != null)
             {
-                dgvCategoryList.Columns["CategoryID"].Visible = false;
+                categoryIDColumn.Visible = false;
             }
-            if (dgvCategoryList.Columns["Name"] != null)
+            var nameColumn = dgvCategoryList.Columns["Name"];
+
+            if (nameColumn != null)
             {
-                dgvCategoryList.Columns["Name"].HeaderText = "Benämning";
+                nameColumn.HeaderText = "Benämning";
             }
         }
 
-        private void category_ListChanged(object sender, ListChangedEventArgs e)
+        private void category_ListChanged(object? sender, ListChangedEventArgs e)
         {
             if (e.ListChangedType == ListChangedType.ItemAdded)
             {
@@ -118,6 +122,8 @@ namespace PL
             {
                 _categories.Add(cat);
             }
+            dgvCategoryList.DataSource = null;
+            dgvCategoryList.DataSource = _categories;
             CorrectColumnSettings();
         }
 
@@ -131,8 +137,18 @@ namespace PL
                     return;
                 }
                 var selectedRow = dgvCategoryList.SelectedRows[0];
-                string catID = selectedRow.Cells["CategoryID"].Value?.ToString();
-                string catName = selectedRow.Cells["Benämning"].Value?.ToString();
+                string? catID = selectedRow.Cells["CategoryID"].Value?.ToString();
+                string? catName = selectedRow.Cells["Name"].Value?.ToString();
+
+                if (string.IsNullOrWhiteSpace(catID))
+                {
+                    // Meddelande till användaren om att ID saknas (kan hända om cellen är tom eller felaktigt bunden)
+                    MessageBox.Show("Kategorins ID kunde inte hittas. Försök ladda om listan.",
+                                    "Fel vid radering",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                    return;
+                }
 
                 var popup = MessageBox.Show("Är du säker på att du vill radera " + catName + "?",
                     "Bekräfta radering",
@@ -171,7 +187,7 @@ namespace PL
             string searchText = tbNameSearch.Text.Trim().ToLower();
             if(string.IsNullOrWhiteSpace(searchText))
             {
-                ShowAllCategoriesAgain();
+                btnShowAll_Click(sender, e);
                 return;
             }
             var filtered = _categories
@@ -186,11 +202,6 @@ namespace PL
             CorrectColumnSettings();
             
         }
-        private void ShowAllCategoriesAgain()
-        {
-            dgvCategoryList.DataSource = null;
-            dgvCategoryList.DataSource = _categories;
-            CorrectColumnSettings();
-        }
+        
     }
 }

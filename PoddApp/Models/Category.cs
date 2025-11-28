@@ -14,7 +14,6 @@ namespace Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        //[BsonElement("_id")]
         public string CategoryID { get; set; }
 
         private string _name;

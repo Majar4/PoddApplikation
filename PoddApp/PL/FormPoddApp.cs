@@ -100,10 +100,9 @@ namespace PL
                 dataGridView1.Columns["PCID"].Visible = false;
 
                 var comboColumn = new DataGridViewComboBoxColumn();
-                //comboColumn.DisplayStyle = DataGridViewComboBoxDisplayStyle.DropDownButton;
                 comboColumn.Name = "Category";
                 comboColumn.HeaderText = "Kategori";
-                comboColumn.DataSource = _categoriesdg; //To.List
+                comboColumn.DataSource = _categoriesdg;
                 comboColumn.DisplayMember = "Name";
                 comboColumn.ValueMember = "CategoryID";
                 dataGridView1.Columns.Add(comboColumn);
@@ -172,7 +171,7 @@ namespace PL
             }
             catch (Exception ex)
             {
-                throw new Exception("Det uppstod ett fel när podcasten skulle sparas.", ex);
+                throw new Exception("Fel: " + ex.Message);
 
             }
         }
@@ -289,11 +288,6 @@ namespace PL
                 {
                     MessageBox.Show("Markera en podcast för att ändra!");
                     return;
-                }
-
-                if (dataGridView1.IsCurrentCellInEditMode)
-                {
-                    dataGridView1.EndEdit();
                 }
 
                 var row = dataGridView1.SelectedRows[0];

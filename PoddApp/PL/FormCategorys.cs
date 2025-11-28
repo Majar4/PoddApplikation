@@ -28,7 +28,7 @@ namespace PL
             _categoryService = categoryService;
             _podcastService = podcastService;
             dgvCategoryList.DataSource = _categories;
-            _categories.ListChanged += category_ListChanged; // subscribe to method about list being changed (add/update)
+            _categories.ListChanged += category_ListChanged; 
 
             CorrectColumnSettings();
         }

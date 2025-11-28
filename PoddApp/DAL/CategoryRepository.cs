@@ -19,7 +19,7 @@ namespace DAL
             CategoryCollection = db.GetCollection<Category>("AllCategories");
         }
 
-        //C
+        
         public async Task AddAsync(Category aCategory)
         {
             using var session = await CategoryCollection.Database.Client.StartSessionAsync();
@@ -36,7 +36,7 @@ namespace DAL
             }
         }
 
-        //R
+        
         public async Task<List<Category>> GetAllAsync()
         {
             var filter = FilterDefinition<Category>.Empty;
@@ -50,7 +50,7 @@ namespace DAL
             return await CategoryCollection.Find(filter).FirstOrDefaultAsync();
         }
 
-        //U
+        
         public async Task<bool> UpdateAsync(Category aCategory)
         {
             using var session = await CategoryCollection.Database.Client.StartSessionAsync();
@@ -70,7 +70,7 @@ namespace DAL
             }
         }
 
-        //D
+        
         public async Task DeleteAsync(string categoryID)
         {
             using var session = await CategoryCollection.Database.Client.StartSessionAsync();

@@ -5,7 +5,7 @@ namespace DAL
 {
     public class PodcastRepository : IRepository<Podcast>
     {
-        //private readonly List<Podcast> allPodcasts;
+
         private readonly IMongoCollection<Podcast> PodcastCollection;
 
         public PodcastRepository(string connectionString, string databaseName)
@@ -15,8 +15,8 @@ namespace DAL
             PodcastCollection = db.GetCollection<Podcast>("AllPodcasts");
         }
 
-        //C
-        public async Task AddAsync(Podcast savedPodcast) 
+
+        public async Task AddAsync(Podcast savedPodcast)
         {
             using var session = await PodcastCollection.Database.Client.StartSessionAsync();
             session.StartTransaction();
@@ -27,12 +27,12 @@ namespace DAL
             }
             catch
             {
-                await session.AbortTransactionAsync(); 
+                await session.AbortTransactionAsync();
                 throw;
             }
         }
 
-        //R
+
         public async Task<List<Podcast?>> GetAllAsync()
         {
             var filter = FilterDefinition<Podcast>.Empty;
@@ -45,10 +45,9 @@ namespace DAL
             var filter = Builders<Podcast>.Filter.Eq(p => p.PCID, Id);
             return await PodcastCollection.Find(filter).FirstOrDefaultAsync();
         }
-            
 
-        //U
-        public async Task<bool> UpdateAsync(Podcast enPodcast) 
+
+        public async Task<bool> UpdateAsync(Podcast enPodcast)
         {
             using var session = await PodcastCollection.Database.Client.StartSessionAsync();
             session.StartTransaction();
@@ -68,8 +67,8 @@ namespace DAL
             }
         }
 
-        //D
-        public async Task DeleteAsync(string podcastID) 
+        
+        public async Task DeleteAsync(string podcastID)
         {
             using var session = await PodcastCollection.Database.Client.StartSessionAsync();
             session.StartTransaction();

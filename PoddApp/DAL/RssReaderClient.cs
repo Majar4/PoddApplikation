@@ -29,14 +29,13 @@ namespace DAL
             XmlReader xmlReader = new XmlTextReader(stream);
             SyndicationFeed feed = SyndicationFeed.Load(xmlReader);
 
-            //Hämta podcasts bild url
             string imageUrl = null;
-            //vanlig rss image url
+            
             if (feed.ImageUrl != null)
             {
                 imageUrl = feed.ImageUrl.ToString();
             }
-            //itunes image url
+            
             var itunesImage = feed.ElementExtensions
                  .FirstOrDefault(ext =>
                  ext.OuterName == "image" &&
@@ -55,7 +54,6 @@ namespace DAL
             Podcast aPodcast = new Podcast(rss)
             {
                 Name = feed.Title?.Text ?? "No title",
-                //valfritt om vi vill ha beskrivning för podden, inget krav
                 Description = feed.Description?.Text ?? "",
                 ImageUrl = imageUrl,
                 Episodes = new List<Episode>()
@@ -69,16 +67,15 @@ namespace DAL
                     Title = item.Title?.Text ?? "No title",
                     Description = item.Summary?.Text ?? "",
                     PublicationDate = item.PublishDate.DateTime,
-                    // tror episodenumber är onödigt, vi kan ta bort
-                    EpisodeNumber = item.Id
+
                 };
 
-                //Hämta avsnittsbilden från itunes:image om den finns
+                
                 var itunesEpisodeImage = item.ElementExtensions
                     .FirstOrDefault(ext =>
                     ext.OuterName == "image" &&
                     ext.OuterNamespace == "http://www.itunes.com/dtds/podcast-1.0.dtd");
-                
+
                 if (itunesEpisodeImage != null)
                 {
                     var reader = itunesEpisodeImage.GetReader();
@@ -91,9 +88,9 @@ namespace DAL
                 aPodcast.Episodes.Add(episode);
             }
 
-        podcasts.Add(aPodcast);
-        return podcasts;
-            
+            podcasts.Add(aPodcast);
+            return podcasts;
+
         }
 
     }

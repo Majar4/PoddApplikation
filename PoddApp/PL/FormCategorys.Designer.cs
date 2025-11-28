@@ -46,11 +46,11 @@
             // 
             dgvCategoryList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvCategoryList.Columns.AddRange(new DataGridViewColumn[] { colCategoryId, Benämning });
-            dgvCategoryList.Location = new Point(20, 23);
+            dgvCategoryList.Location = new Point(25, 29);
             dgvCategoryList.Margin = new Padding(2);
             dgvCategoryList.Name = "dgvCategoryList";
             dgvCategoryList.RowHeadersWidth = 62;
-            dgvCategoryList.Size = new Size(222, 290);
+            dgvCategoryList.Size = new Size(278, 362);
             dgvCategoryList.TabIndex = 0;
             // 
             // colCategoryId
@@ -71,10 +71,10 @@
             // 
             // btnShowAll
             // 
-            btnShowAll.Location = new Point(254, 23);
+            btnShowAll.Location = new Point(318, 29);
             btnShowAll.Margin = new Padding(2);
             btnShowAll.Name = "btnShowAll";
-            btnShowAll.Size = new Size(90, 27);
+            btnShowAll.Size = new Size(112, 34);
             btnShowAll.TabIndex = 1;
             btnShowAll.Text = "Visa Alla";
             btnShowAll.UseVisualStyleBackColor = true;
@@ -82,39 +82,40 @@
             // 
             // btnSearch
             // 
-            btnSearch.Location = new Point(254, 110);
+            btnSearch.Location = new Point(318, 138);
             btnSearch.Margin = new Padding(2);
             btnSearch.Name = "btnSearch";
-            btnSearch.Size = new Size(90, 27);
+            btnSearch.Size = new Size(112, 34);
             btnSearch.TabIndex = 2;
             btnSearch.Text = "SÖK";
             btnSearch.UseVisualStyleBackColor = true;
+            btnSearch.Click += btnSearch_Click;
             // 
             // lblNameSearch
             // 
             lblNameSearch.AutoSize = true;
-            lblNameSearch.Location = new Point(246, 58);
+            lblNameSearch.Location = new Point(308, 72);
             lblNameSearch.Margin = new Padding(2, 0, 2, 0);
             lblNameSearch.Name = "lblNameSearch";
-            lblNameSearch.Size = new Size(101, 20);
+            lblNameSearch.Size = new Size(124, 25);
             lblNameSearch.TabIndex = 3;
             lblNameSearch.Text = "Sök på Namn:";
             // 
             // tbNameSearch
             // 
-            tbNameSearch.Location = new Point(246, 81);
+            tbNameSearch.Location = new Point(308, 101);
             tbNameSearch.Margin = new Padding(2);
             tbNameSearch.Name = "tbNameSearch";
             tbNameSearch.PlaceholderText = "Skriv för att söka...";
-            tbNameSearch.Size = new Size(152, 27);
+            tbNameSearch.Size = new Size(189, 31);
             tbNameSearch.TabIndex = 4;
             // 
             // btnAdd
             // 
-            btnAdd.Location = new Point(254, 174);
+            btnAdd.Location = new Point(318, 218);
             btnAdd.Margin = new Padding(2);
             btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(129, 27);
+            btnAdd.Size = new Size(161, 34);
             btnAdd.TabIndex = 5;
             btnAdd.Text = "Lägg till Rad";
             btnAdd.UseVisualStyleBackColor = true;
@@ -122,10 +123,10 @@
             // 
             // btnDelete
             // 
-            btnDelete.Location = new Point(254, 206);
+            btnDelete.Location = new Point(318, 258);
             btnDelete.Margin = new Padding(2);
             btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(129, 27);
+            btnDelete.Size = new Size(161, 34);
             btnDelete.TabIndex = 6;
             btnDelete.Text = "Ta bort Markerad";
             btnDelete.UseVisualStyleBackColor = true;
@@ -133,10 +134,10 @@
             // 
             // btnSaveChanges
             // 
-            btnSaveChanges.Location = new Point(254, 238);
+            btnSaveChanges.Location = new Point(318, 298);
             btnSaveChanges.Margin = new Padding(2);
             btnSaveChanges.Name = "btnSaveChanges";
-            btnSaveChanges.Size = new Size(129, 27);
+            btnSaveChanges.Size = new Size(161, 34);
             btnSaveChanges.TabIndex = 7;
             btnSaveChanges.Text = "Spara Ändringar";
             btnSaveChanges.UseVisualStyleBackColor = true;
@@ -144,10 +145,10 @@
             // 
             // btnClose
             // 
-            btnClose.Location = new Point(254, 286);
+            btnClose.Location = new Point(318, 358);
             btnClose.Margin = new Padding(2);
             btnClose.Name = "btnClose";
-            btnClose.Size = new Size(90, 27);
+            btnClose.Size = new Size(112, 34);
             btnClose.TabIndex = 8;
             btnClose.Text = "STÄNG";
             btnClose.UseVisualStyleBackColor = true;
@@ -155,9 +156,9 @@
             // 
             // FormCategorys
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(407, 336);
+            ClientSize = new Size(509, 420);
             Controls.Add(btnClose);
             Controls.Add(btnSaveChanges);
             Controls.Add(btnDelete);

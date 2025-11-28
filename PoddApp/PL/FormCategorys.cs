@@ -138,7 +138,7 @@ namespace PL
                 }
                 var selectedRow = dgvCategoryList.SelectedRows[0];
                 string? catID = selectedRow.Cells["CategoryID"].Value?.ToString();
-                string? catName = selectedRow.Cells["Benämning"].Value?.ToString();
+                string? catName = selectedRow.Cells["Name"].Value?.ToString();
 
                 if (string.IsNullOrWhiteSpace(catID))
                 {

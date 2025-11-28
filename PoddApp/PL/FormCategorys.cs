@@ -137,8 +137,18 @@ namespace PL
                     return;
                 }
                 var selectedRow = dgvCategoryList.SelectedRows[0];
-                string catID = selectedRow.Cells["CategoryID"].Value?.ToString();
-                string catName = selectedRow.Cells["Benämning"].Value?.ToString();
+                string? catID = selectedRow.Cells["CategoryID"].Value?.ToString();
+                string? catName = selectedRow.Cells["Benämning"].Value?.ToString();
+
+                if (string.IsNullOrWhiteSpace(catID))
+                {
+                    // Meddelande till användaren om att ID saknas (kan hända om cellen är tom eller felaktigt bunden)
+                    MessageBox.Show("Kategorins ID kunde inte hittas. Försök ladda om listan.",
+                                    "Fel vid radering",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                    return;
+                }
 
                 var popup = MessageBox.Show("Är du säker på att du vill radera " + catName + "?",
                     "Bekräfta radering",

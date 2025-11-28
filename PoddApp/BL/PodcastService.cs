@@ -38,51 +38,31 @@ namespace BL
         //C 
         public async Task AddPodcastAsync(Podcast podcast)  
         {
-            try
-            {
-                if (podcast == null)
-                    throw new ArgumentException("Ingen podcast har hämtats. Hämta en podcast innan du sparar.");//Ska inte enbart förlita sig på att kanpp inte är klickbar i UI.
+            if (podcast == null)
+                throw new ArgumentException("Ingen podcast har hämtats. Hämta en podcast innan du sparar.");
                 
                 await podcastRepo.AddAsync(podcast); 
-            }
-            catch (Exception ex)
-            { 
-                throw new Exception("Det uppstod ett fel när podcasten skulle sparas.", ex);
-            }
         }
 
         //R
 
         public async Task<List<Podcast>> GetAllPodcastsAsync() 
         {
-            try
-            {
-                var podcasts = await podcastRepo.GetAllAsync();
-                return podcasts;  
-            }
-            catch(Exception ex)
-            {
-                throw new Exception("Fel uppstod vid hämtning från databasen.", ex);
-            }
+            var podcasts = await podcastRepo.GetAllAsync();
+            return podcasts;  
         }
         
         public async Task<Podcast> GetPodcastByIdAsync(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
                 throw new ArgumentException("Ingen podcast valdes.");
-            try
-            {
+     
                 var podcast = await podcastRepo.GetByIdAsync(id);
 
-                if (podcast == null)
+            if (podcast == null)
                     throw new Exception("Podcasten kunde inte hittas.");
 
-                return podcast;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Det gick inte att hämta podcasten.", ex);
-            }
+            return podcast;
         }
 
         //U 
@@ -94,18 +74,11 @@ namespace BL
             if (string.IsNullOrWhiteSpace(podcast.PCID))
                 throw new ArgumentException("Podcast saknas, kan inte uppdateras.");
 
+            bool updated = await podcastRepo.UpdateAsync(podcast);
 
-            try
-            {
-                bool updated = await podcastRepo.UpdateAsync(podcast);
-
-                if (!updated)
+            if (!updated)
                     throw new Exception("Podcasten kunde inte uppdateras.");
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Det uppstod ett fel när podcasten skulle uppdateras.", ex);
-            }
+        
         }
 
         //D 
@@ -113,15 +86,9 @@ namespace BL
         {
             if (string.IsNullOrWhiteSpace(id))
                 throw new ArgumentException("Ingen podcast har valts för borttagning."); 
-            
-            try
-            {
-                await podcastRepo.DeleteAsync(id);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Det uppstod ett fel när podcasten skulle tas bort.", ex);
-            }
+
+            await podcastRepo.DeleteAsync(id);
+          
         }
     }
 }

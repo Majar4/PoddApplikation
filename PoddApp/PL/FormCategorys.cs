@@ -141,28 +141,56 @@ namespace PL
                 {
                     var allPodcasts = await _podcastService.GetAllPodcastsAsync();
                     bool podcastUsesCategory = allPodcasts.Any(p => p.CategoryID == catID);
-                    
-                        if (podcastUsesCategory)
-                        {
-                            MessageBox.Show("Denna kategori tillhör poddflöden, går ej att radera");
-                            return;
-                        }
-                        
-                            await _categoryService.DeleteCategoryAsync(catID);
-                            var DBcategories = await _categoryService.GetAllCategoriesAsync();
-                            _categories.Clear();
-                            foreach (var cat in DBcategories)
-                            {
-                                _categories.Add(cat);
-                            }
-                            CorrectColumnSettings();
-                            MessageBox.Show(catName + " har raderats");
+
+                    if (podcastUsesCategory)
+                    {
+                        MessageBox.Show("Denna kategori tillhör poddflöden, går ej att radera");
+                        return;
+                    }
+
+                    await _categoryService.DeleteCategoryAsync(catID);
+                    var DBcategories = await _categoryService.GetAllCategoriesAsync();
+                    _categories.Clear();
+                    foreach (var cat in DBcategories)
+                    {
+                        _categories.Add(cat);
+                    }
+                    CorrectColumnSettings();
+                    MessageBox.Show(catName + " har raderats");
 
                 }
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            string searchText = tbNameSearch.Text.Trim().ToLower();
+            if(string.IsNullOrWhiteSpace(searchText))
+            {
+                ShowAllCategoriesAgain();
+                return;
+            }
+            var filtered = _categories
+                .Where(c => !string.IsNullOrWhiteSpace(c.Name) &&
+                c.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            tbNameSearch.Clear();
+
+            dgvCategoryList.DataSource = null;
+            dgvCategoryList.DataSource = filtered;
+            CorrectColumnSettings();
+            
+        }
+        private void ShowAllCategoriesAgain()
+        {
+            dgvCategoryList.DataSource = null;
+            dgvCategoryList.DataSource = _categories;
+            CorrectColumnSettings();
         }
     }
 }

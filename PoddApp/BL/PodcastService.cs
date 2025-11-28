@@ -35,7 +35,7 @@ namespace BL
             }
         }
 
-        //C 
+        
         public async Task AddPodcastAsync(Podcast podcast)  
         {
             if (podcast == null)
@@ -44,7 +44,7 @@ namespace BL
                 await podcastRepo.AddAsync(podcast); 
         }
 
-        //R
+       
 
         public async Task<List<Podcast>> GetAllPodcastsAsync() 
         {
@@ -65,7 +65,7 @@ namespace BL
             return podcast;
         }
 
-        //U 
+        
         public async Task UpdatePodcastAsync(Podcast podcast)
         {
             if (podcast == null)
@@ -81,7 +81,7 @@ namespace BL
         
         }
 
-        //D 
+        
         public async Task DeletePodcastAsync(string id)
         {
             if (string.IsNullOrWhiteSpace(id))

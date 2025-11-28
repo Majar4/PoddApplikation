@@ -13,11 +13,6 @@ namespace PL
     {
         private static string isCorrectURL(string url)
         {
-            // Uri är som ett inbyggt regex. Här säger jag alltså:
-            //Försök läsa strängen som en url, typen uri ska vara absolut
-            //alltså ganska strikt, finns tre olika varianter av UriKind.
-            //out = om TryCreate funkar så ska det lagras i variabeln uri.
-            //I och med ! så säger vi: om detta inte kan ske så...
             if(!Uri.TryCreate(url, UriKind.Absolute, out Uri uri))
             {
                 return "Ogiltig URL";
@@ -57,15 +52,6 @@ namespace PL
             }
             return null;
         }
-        // har gjort ComboBoxIsNotEmpty om vi vill använda den för ngn validering senare :)
-        public static string ComboBoxIsNotEmpty (object selectedItem)
-        {
-            if (selectedItem == null) {
-                return "Du måste välja ur listan";
-            }
-                return null; 
-        }
-
         public static string RssIsValid(string rss, IEnumerable<string> existingURLs)
         {
             string checkIfEmpty = isNotEmpty(rss);

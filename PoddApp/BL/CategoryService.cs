@@ -17,13 +17,11 @@ namespace BL
             _repository = repository;
         }
 
-        //C
         public async Task AddCategoryAsync(string name)
         {
             string trimmedName = name.Trim();
             var category = new Category(trimmedName);
             var DBcategories = await GetAllCategoriesAsync();
-            //Only want to add category if not already in database 
             if (DBcategories.Any(c => c.Name.Equals(trimmedName, StringComparison.OrdinalIgnoreCase)))
             {
                 throw new InvalidOperationException("Kategorin finns redan. Vänligen skriv in en ny kategori.");
@@ -31,7 +29,6 @@ namespace BL
             await _repository.AddAsync(category);
         }
 
-        //R
         public Task<List<Category>> GetAllCategoriesAsync()
         {
             return _repository.GetAllAsync();
@@ -41,15 +38,12 @@ namespace BL
             return _repository.GetByIdAsync(categoryId);
         }
 
-        //U
         public async Task RenameCategoryAsync(string categoryId, string newName)
         {
             var category = await _repository.GetByIdAsync(categoryId);
             category.Name = newName;
             await _repository.UpdateAsync(category);
         }
-
-        //D
 
         public async Task DeleteCategoryAsync(string categoryId)
         {

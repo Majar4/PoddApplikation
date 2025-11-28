@@ -39,15 +39,15 @@
             picPod = new PictureBox();
             lblPodList = new Label();
             dataGridView1 = new DataGridView();
+            colName = new DataGridViewTextBoxColumn();
+            colCategory = new DataGridViewComboBoxColumn();
+            colPodId = new DataGridViewComboBoxColumn();
             btnCategorys = new Button();
             btnShow = new Button();
             btnRemove = new Button();
             saveChangesBtn = new Button();
             cbFilterCategory = new ComboBox();
             label1 = new Label();
-            colName = new DataGridViewTextBoxColumn();
-            colCategory = new DataGridViewComboBoxColumn();
-            colPodId = new DataGridViewComboBoxColumn();
             ((System.ComponentModel.ISupportInitialize)picPod).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
@@ -55,7 +55,7 @@
             // lblUrl
             // 
             lblUrl.AutoSize = true;
-            lblUrl.Location = new Point(23, 25);
+            lblUrl.Location = new Point(23, 72);
             lblUrl.Name = "lblUrl";
             lblUrl.Size = new Size(38, 20);
             lblUrl.TabIndex = 0;
@@ -64,7 +64,7 @@
             // lblName
             // 
             lblName.AutoSize = true;
-            lblName.Location = new Point(23, 328);
+            lblName.Location = new Point(23, 375);
             lblName.Name = "lblName";
             lblName.Size = new Size(52, 20);
             lblName.TabIndex = 1;
@@ -73,7 +73,7 @@
             // lblCategory
             // 
             lblCategory.AutoSize = true;
-            lblCategory.Location = new Point(23, 364);
+            lblCategory.Location = new Point(23, 411);
             lblCategory.Name = "lblCategory";
             lblCategory.Size = new Size(69, 20);
             lblCategory.TabIndex = 2;
@@ -81,14 +81,14 @@
             // 
             // txtUrl
             // 
-            txtUrl.Location = new Point(104, 19);
+            txtUrl.Location = new Point(104, 66);
             txtUrl.Name = "txtUrl";
             txtUrl.Size = new Size(150, 27);
             txtUrl.TabIndex = 3;
             // 
             // txtName
             // 
-            txtName.Location = new Point(104, 322);
+            txtName.Location = new Point(104, 369);
             txtName.Name = "txtName";
             txtName.Size = new Size(150, 27);
             txtName.TabIndex = 4;
@@ -96,14 +96,14 @@
             // cbCategory
             // 
             cbCategory.FormattingEnabled = true;
-            cbCategory.Location = new Point(104, 356);
+            cbCategory.Location = new Point(104, 403);
             cbCategory.Name = "cbCategory";
             cbCategory.Size = new Size(182, 28);
             cbCategory.TabIndex = 5;
             // 
             // btnSearch
             // 
-            btnSearch.Location = new Point(260, 16);
+            btnSearch.Location = new Point(260, 63);
             btnSearch.Name = "btnSearch";
             btnSearch.Size = new Size(112, 34);
             btnSearch.TabIndex = 6;
@@ -113,7 +113,7 @@
             // 
             // btnSave
             // 
-            btnSave.Location = new Point(104, 408);
+            btnSave.Location = new Point(104, 455);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(112, 34);
             btnSave.TabIndex = 7;
@@ -123,7 +123,7 @@
             // 
             // picPod
             // 
-            picPod.Location = new Point(104, 71);
+            picPod.Location = new Point(104, 118);
             picPod.Name = "picPod";
             picPod.Size = new Size(268, 224);
             picPod.SizeMode = PictureBoxSizeMode.Zoom;
@@ -134,7 +134,7 @@
             // 
             lblPodList.AutoSize = true;
             lblPodList.Font = new Font("Segoe UI", 13F);
-            lblPodList.Location = new Point(478, 16);
+            lblPodList.Location = new Point(470, 22);
             lblPodList.Name = "lblPodList";
             lblPodList.Size = new Size(240, 30);
             lblPodList.TabIndex = 9;
@@ -144,68 +144,11 @@
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { colName, colCategory, colPodId });
-            dataGridView1.Location = new Point(469, 71);
+            dataGridView1.Location = new Point(469, 118);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 62;
             dataGridView1.Size = new Size(406, 318);
             dataGridView1.TabIndex = 10;
-            // 
-            // btnCategorys
-            // 
-            btnCategorys.Location = new Point(307, 322);
-            btnCategorys.Name = "btnCategorys";
-            btnCategorys.Size = new Size(112, 67);
-            btnCategorys.TabIndex = 11;
-            btnCategorys.Text = "Hantera Kategorier...";
-            btnCategorys.UseVisualStyleBackColor = true;
-            btnCategorys.Click += btnCategorys_Click;
-            // 
-            // btnShow
-            // 
-            btnShow.Location = new Point(470, 408);
-            btnShow.Name = "btnShow";
-            btnShow.Size = new Size(117, 34);
-            btnShow.TabIndex = 12;
-            btnShow.Text = "Visa ";
-            btnShow.UseVisualStyleBackColor = true;
-            btnShow.Click += btnShow_Click;
-            // 
-            // btnRemove
-            // 
-            btnRemove.Location = new Point(707, 408);
-            btnRemove.Name = "btnRemove";
-            btnRemove.Size = new Size(125, 34);
-            btnRemove.TabIndex = 13;
-            btnRemove.Text = "Ta Bort";
-            btnRemove.UseVisualStyleBackColor = true;
-            btnRemove.Click += btnRemove_Click;
-            // 
-            // saveChangesBtn
-            // 
-            saveChangesBtn.Location = new Point(593, 408);
-            saveChangesBtn.Name = "saveChangesBtn";
-            saveChangesBtn.Size = new Size(112, 34);
-            saveChangesBtn.TabIndex = 14;
-            saveChangesBtn.Text = "Spara ";
-            saveChangesBtn.UseVisualStyleBackColor = true;
-            saveChangesBtn.Click += saveChangesBtn_Click;
-            // 
-            // cbFilterCategory
-            // 
-            cbFilterCategory.FormattingEnabled = true;
-            cbFilterCategory.Location = new Point(724, 37);
-            cbFilterCategory.Name = "cbFilterCategory";
-            cbFilterCategory.Size = new Size(151, 28);
-            cbFilterCategory.TabIndex = 15;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(725, 10);
-            label1.Name = "label1";
-            label1.Size = new Size(149, 20);
-            label1.TabIndex = 16;
-            label1.Text = "Filtrera efter kategori";
             // 
             // colName
             // 
@@ -230,9 +173,66 @@
             colPodId.Visible = false;
             colPodId.Width = 150;
             // 
+            // btnCategorys
+            // 
+            btnCategorys.Location = new Point(307, 369);
+            btnCategorys.Name = "btnCategorys";
+            btnCategorys.Size = new Size(112, 67);
+            btnCategorys.TabIndex = 11;
+            btnCategorys.Text = "Hantera Kategorier...";
+            btnCategorys.UseVisualStyleBackColor = true;
+            btnCategorys.Click += btnCategorys_Click;
+            // 
+            // btnShow
+            // 
+            btnShow.Location = new Point(470, 455);
+            btnShow.Name = "btnShow";
+            btnShow.Size = new Size(117, 34);
+            btnShow.TabIndex = 12;
+            btnShow.Text = "Visa ";
+            btnShow.UseVisualStyleBackColor = true;
+            btnShow.Click += btnShow_Click;
+            // 
+            // btnRemove
+            // 
+            btnRemove.Location = new Point(707, 455);
+            btnRemove.Name = "btnRemove";
+            btnRemove.Size = new Size(125, 34);
+            btnRemove.TabIndex = 13;
+            btnRemove.Text = "Ta Bort";
+            btnRemove.UseVisualStyleBackColor = true;
+            btnRemove.Click += btnRemove_Click;
+            // 
+            // saveChangesBtn
+            // 
+            saveChangesBtn.Location = new Point(593, 455);
+            saveChangesBtn.Name = "saveChangesBtn";
+            saveChangesBtn.Size = new Size(112, 34);
+            saveChangesBtn.TabIndex = 14;
+            saveChangesBtn.Text = "Spara ";
+            saveChangesBtn.UseVisualStyleBackColor = true;
+            saveChangesBtn.Click += saveChangesBtn_Click;
+            // 
+            // cbFilterCategory
+            // 
+            cbFilterCategory.FormattingEnabled = true;
+            cbFilterCategory.Location = new Point(724, 84);
+            cbFilterCategory.Name = "cbFilterCategory";
+            cbFilterCategory.Size = new Size(151, 28);
+            cbFilterCategory.TabIndex = 15;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(725, 57);
+            label1.Name = "label1";
+            label1.Size = new Size(149, 20);
+            label1.TabIndex = 16;
+            label1.Text = "Filtrera efter kategori";
+            // 
             // FormPoddApp
             // 
-            ClientSize = new Size(959, 454);
+            ClientSize = new Size(959, 514);
             Controls.Add(label1);
             Controls.Add(cbFilterCategory);
             Controls.Add(saveChangesBtn);

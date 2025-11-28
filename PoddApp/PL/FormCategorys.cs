@@ -118,6 +118,8 @@ namespace PL
             {
                 _categories.Add(cat);
             }
+            dgvCategoryList.DataSource = null;
+            dgvCategoryList.DataSource = _categories;
             CorrectColumnSettings();
         }
 
@@ -171,7 +173,7 @@ namespace PL
             string searchText = tbNameSearch.Text.Trim().ToLower();
             if(string.IsNullOrWhiteSpace(searchText))
             {
-                ShowAllCategoriesAgain();
+                btnShowAll_Click(sender, e);
                 return;
             }
             var filtered = _categories
@@ -186,11 +188,6 @@ namespace PL
             CorrectColumnSettings();
             
         }
-        private void ShowAllCategoriesAgain()
-        {
-            dgvCategoryList.DataSource = null;
-            dgvCategoryList.DataSource = _categories;
-            CorrectColumnSettings();
-        }
+        
     }
 }

@@ -35,17 +35,21 @@ namespace PL
 
         private void CorrectColumnSettings()
         {
-            if (dgvCategoryList.Columns["CategoryID"] != null)
+            var categoryIDColumn = dgvCategoryList.Columns["CategoryID"];
+
+            if (categoryIDColumn != null)
             {
-                dgvCategoryList.Columns["CategoryID"].Visible = false;
+                categoryIDColumn.Visible = false;
             }
-            if (dgvCategoryList.Columns["Name"] != null)
+            var nameColumn = dgvCategoryList.Columns["Name"];
+
+            if (nameColumn != null)
             {
-                dgvCategoryList.Columns["Name"].HeaderText = "Benämning";
+                nameColumn.HeaderText = "Benämning";
             }
         }
 
-        private void category_ListChanged(object sender, ListChangedEventArgs e)
+        private void category_ListChanged(object? sender, ListChangedEventArgs e)
         {
             if (e.ListChangedType == ListChangedType.ItemAdded)
             {

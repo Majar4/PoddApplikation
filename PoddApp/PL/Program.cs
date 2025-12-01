@@ -17,8 +17,10 @@ namespace PL
             HttpClient http = new HttpClient();
             var client = new RssReaderClient(http);
 
-            var dbString = Environment.GetEnvironmentVariable("MONGO_CONNECTION_STRING");
-            var dbName = "PodcastDB";
+            var dbString = "mongodb+srv://OruMongoDBAdmin:Shore1-Shorthand0-Closable2-Hypertext1-Pulp5@orumongodb.vv4muwv.mongodb.net/?appName=OruMongoDB";
+            var dbName = "opponering";
+            //var dbString = Environment.GetEnvironmentVariable("MONGO_CONNECTION_STRING");
+            //var dbName = "PodcastDB";
 
             var podcastRepo = new PodcastRepository(dbString, dbName);
             var categoryRepo = new CategoryRepository(dbString, dbName);

@@ -17,6 +17,7 @@ namespace PL
         public FormPoddApp(IPodcastService podcastService, ICategoryService categoryService)
         {
             InitializeComponent();
+            dataGridView1.DataError += dataGridView1_DataError;//Koppla min metod till DataError-eventet
             _podcastService = podcastService;
             _categoryService = categoryService;
 
@@ -364,6 +365,10 @@ namespace PL
                     dataGridView1.Rows.Add(podName, podPCID, podCategoryID);
                 }
             }
+        }
+        private void dataGridView1_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            e.ThrowException = false; // Hindrar DataGridView från att krascha när ett ogiltigt värde finns
         }
     }
 }

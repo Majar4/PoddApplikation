@@ -17,7 +17,7 @@ namespace PL
         public FormPoddApp(IPodcastService podcastService, ICategoryService categoryService)
         {
             InitializeComponent();
-            dataGridView1.DataError += dataGridView1_DataError;//Koppla min metod till DataError-eventet
+            dataGridView1.DataError += dataGridView1_DataError;//.DataError är ett event när ngt blir fel i datan (inte finns i combobox) Kör då metoden. 
             _podcastService = podcastService;
             _categoryService = categoryService;
 

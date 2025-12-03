@@ -125,6 +125,8 @@ namespace PL
 
         private async void btnSave_Click(object sender, EventArgs e)
         {
+            btnSave.Enabled = false; //Löser krasch om man råkar trycka på spara 2 ggr, under anrop. 
+
             try
             {
                 if (fetchedPodcast == null)
@@ -168,6 +170,8 @@ namespace PL
                 cbCategory.SelectedIndex = -1;
 
                 await LoadPodcastsAsync();
+
+                btnSave.Enabled = true;
 
             }
             catch (Exception ex)

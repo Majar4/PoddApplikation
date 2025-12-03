@@ -18,6 +18,7 @@ namespace PL
         public FormPoddApp(IPodcastService podcastService, ICategoryService categoryService)
         {
             InitializeComponent();
+            dataGridView1.DataError += dataGridView1_DataError;//.DataError är ett event när ngt blir fel i datan (inte finns i combobox) Kör då metoden. 
             _podcastService = podcastService;
             _categoryService = categoryService;
 
@@ -125,6 +126,8 @@ namespace PL
 
         private async void btnSave_Click(object sender, EventArgs e)
         {
+            btnSave.Enabled = false; //Löser krasch om man råkar trycka på spara 2 ggr, under anrop. 
+
             try
             {
                 if (fetchedPodcast == null)
@@ -168,6 +171,8 @@ namespace PL
                 cbCategory.SelectedIndex = -1;
 
                 await LoadPodcastsAsync();
+
+                btnSave.Enabled = true;
 
             }
             catch (Exception ex)
@@ -370,6 +375,10 @@ namespace PL
                     dataGridView1.Rows.Add(podName, podPCID, podCategoryID);
                 }
             }
+        }
+        private void dataGridView1_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            e.ThrowException = false; // Hindrar DataGridView från att krascha när ett ogiltigt värde finns
         }
     }
 }

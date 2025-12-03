@@ -13,6 +13,7 @@ namespace PL
         private Podcast? fetchedPodcast;
         private BindingList<Category> _categoriescb = new BindingList<Category>();
         private BindingList<Category> _categoriesdg = new BindingList<Category>();
+        private BindingList<Category> _categoriesBox = new BindingList<Category>();
 
         public FormPoddApp(IPodcastService podcastService, ICategoryService categoryService)
         {
@@ -218,11 +219,13 @@ namespace PL
 
             _categoriescb.Clear();
             _categoriesdg.Clear();
+            _categoriesBox.Clear();
 
             foreach (var cat in DBcategories)
             {
                 _categoriescb.Add(cat);
                 _categoriesdg.Add(cat);
+                _categoriesBox.Add(cat);
 
             }
 
@@ -230,11 +233,14 @@ namespace PL
             cbAllCategories.CategoryID = null;
             cbAllCategories.Name = "Alla";
             _categoriescb.Insert(0, cbAllCategories);
+            _categoriesBox.Insert(0, cbAllCategories);
             cbCategory.DataSource = _categoriescb;
             cbCategory.DisplayMember = "Name";
             cbCategory.ValueMember = "CategoryID";
             cbCategory.SelectedIndex = -1;
             cbCategory.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbFilterCategory.SelectedIndex = -1;
+            cbFilterCategory.DropDownStyle = ComboBoxStyle.DropDownList;
 
         }
 
@@ -338,7 +344,7 @@ namespace PL
 
         private void CbFilterCategory()
         {
-            cbFilterCategory.DataSource = _categoriescb;
+            cbFilterCategory.DataSource = _categoriesBox;
             cbFilterCategory.DisplayMember = "Name";
             cbFilterCategory.SelectionChangeCommitted += CbFilterCategory_SelectionChangeCommitted;
         }

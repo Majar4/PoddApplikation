@@ -36,25 +36,23 @@ namespace BL
         }
 
 
-        public async Task AddPodcastAsync(Podcast podcast)//Uppdaterad förr att skydda mot duplicateKey 
+        public async Task AddPodcastAsync(Podcast podcast) 
         {
             if (podcast == null)
                 throw new ArgumentException("Ingen podcast har hämtats. Hämta en podcast innan du sparar.");
 
             var savedPodcasts = await podcastRepo.GetAllAsync();
-            // Kontrollerar om det redan finns en podcast med samma URL.
-            // Finns sparad podcast där den sparade och den nya podcastens URL inte är null, och där URL:erna är identiska
             if (savedPodcasts.Any(p => 
                 p?.Url != null && podcast.Url != null && string.Equals(p.Url, podcast.Url, StringComparison.OrdinalIgnoreCase)))
                 throw new Exception("Podden finns redan sparad.");
 
             try
             {
-                await podcastRepo.AddAsync(podcast);//Försök lägga till i databasen
+                await podcastRepo.AddAsync(podcast);
             }
             catch (Exception ex)
             {
-                throw new Exception("Det gick inte att spara podcasten", ex);// Om något ändå går fel, kasta fel
+                throw new Exception("Det gick inte att spara podcasten", ex);
             }
         }
 
